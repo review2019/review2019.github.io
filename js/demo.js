@@ -1,17 +1,3 @@
-/*d3.json('./data.json')
-    .then(function(data) {
-
-    console.log(data)
-    // data = data.filter(d => d.System != "");
-
-    // Begin by adding each notification to the unsent location
-    data.forEach(function(n) { n.location = 'Unsent'; });
-    data[6].location = 'Opened'
-
-    var locations = ['Unsent', 'Distracting', 'Opened', 'Dismissed'];
-    var nodes = [...new Set(data.map(d => d.appName))]; // can use this for visualising features via color e.g. app, cat
-
-});*/
 if(screen.width >= 750){
     var startingEpoch = null;
     var currentEpoch = null;
@@ -23,6 +9,9 @@ if(screen.width >= 750){
     var gData = null;
     var tooltip = null;
     var wastedMinutes = 0;
+    
+    var pDismissed = 0;
+    var pOpened = 0;
 
     /*
     *
@@ -161,6 +150,12 @@ if(screen.width >= 750){
             radius: 5,
             value: 20,
             appName: d.appPackage,
+            p1: d.p1,
+            p2: d.p2,
+            p3: d.p3,
+            p4: d.p4,
+            p5: d.p5,
+            p6: d.p6,
             category: d.category,
             subject: d.subject,
             location: d.location,
@@ -237,6 +232,7 @@ if(screen.width >= 750){
         // Set the simulation's nodes to our newly created nodes array.
         // @v4 Once we set the nodes, the simulation will start running automatically!
         simulation.nodes(nodes);
+        
 
         populateLegend();
         populateDropdown();
@@ -313,7 +309,10 @@ if(screen.width >= 750){
             }
             $('#chooseFeature').val(colorFeature);
             $('#chooseFeature').on('change', function(e){
-                wastedMinutes = 0
+                wastedMinutes = 0  
+                pOpened = 0
+                pDismissed = 0
+                
                 document.getElementById('replay').style.display = 'none'
                 document.getElementById('start').style.display = 'block'
                 document.getElementById('stop').style.display = 'none'
@@ -321,12 +320,15 @@ if(screen.width >= 750){
                 document.getElementById('man-up').style.display = 'none'
                 document.getElementById('man-left').style.display = 'block'
                 document.getElementById('man-down').style.display = 'none'
+                
+                d3.select("#willpower-chart").select("*").remove();
+                document.getElementById('willpower-chart').style.display = 'none'
 
 
 
                 clearInterval(notificationSimulation);
                 colorFeature = this.value;
-                d3.select("svg").remove();
+                d3.select("#vis").select("svg").remove();
                 var elm = document.getElementById("dropdownLegend")
                 while (elm.hasChildNodes()) {
                   elm.removeChild(elm.lastChild);
@@ -372,12 +374,24 @@ if(screen.width >= 750){
           .attr('cx', function (d) { return d.x; })
           .attr('cy', function (d) { return d.y; });
         wastedMinutes = 0;
+        pDismissed = 0;
+        pOpened = 0;
 
-        nodes.forEach(function(n) { 
-                if(n.location == "Dismissed")
+        nodes.forEach(function(n) {
+                // Calc the persuasiveness
+                var persuasiveness = n.p1+n.p2+n.p3+n.p4+n.p5+n.p6
+                
+                if(n.location == "Dismissed"){
                     wastedMinutes+=1.3
+                    if(persuasiveness>2)
+                        pDismissed+=1
+                }
+                if(n.location == "Opened"){
+                    if(persuasiveness>2)
+                        pOpened+=1
+                }
         });
-        document.getElementById('wastedMinutes').innerHTML = Math.round(wastedMinutes)+' '
+        document.getElementById('wastedMinutes').innerHTML = Math.round(wastedMinutes)+' '        
       }
 
       /*
@@ -481,6 +495,7 @@ if(screen.width >= 750){
                         removed++;
                     }
                 }
+                willPowerFunc(pOpened, pDismissed)
                 if(removed == nodes.length){
                     document.getElementById('replay').style.display = 'block'
                     document.getElementById('start').style.display = 'none'
@@ -491,7 +506,7 @@ if(screen.width >= 750){
                     clearInterval(notificationSimulation);
                 }
                 splitBubbles();
-
+                
             }, 1)
         }
 
@@ -510,6 +525,7 @@ if(screen.width >= 750){
             document.getElementById('man-up').style.display = 'block'
             document.getElementById('man-left').style.display = 'none'
             document.getElementById('man-down').style.display = 'none'
+            document.getElementById('willpower-chart').style.display = 'block'
             //splitBubbles();
             startNotificationSimulation();
         } else if(displayName == 'stop') {
@@ -518,6 +534,7 @@ if(screen.width >= 750){
             document.getElementById('man-up').style.display = 'none'
             document.getElementById('man-left').style.display = 'block'
             document.getElementById('man-down').style.display = 'none'
+            document.getElementById('willpower-chart').style.display = 'none'
           clearInterval(notificationSimulation)
           groupBubbles();
         }
@@ -534,8 +551,14 @@ if(screen.width >= 750){
             document.getElementById('man-up').style.display = 'block'
             document.getElementById('man-left').style.display = 'none'
             document.getElementById('man-down').style.display = 'none'
+            d3.select("#willpower-chart").select("*").remove();
             // reset wasted minutes
-            wastedMinutes = 0        
+            wastedMinutes = 0   
+            // reset willpower
+            pOpened = 0
+            pDismissed = 0
+            willPowerFunc(pOpened, pDismissed)
+            
             // start
             startNotificationSimulation();
         }
@@ -570,8 +593,6 @@ if(screen.width >= 750){
 
         setUpChart(gData)
 
-
-
     });
 
     function setUpChart(data){
@@ -587,17 +608,6 @@ if(screen.width >= 750){
 
         var myBubbleChart = bubbleChart(nodeColors);
         myBubbleChart('#vis', data)
-        /*
-         * Function called once data is loaded from CSV.
-         * Calls bubble chart function to display inside #vis div.
-         */
-        /*function display(error, data) {
-          if (error) {
-            console.log(error);
-          }
-
-          myBubbleChart('#vis', data);
-        }*/
 
         /*
          * Sets up the layout buttons to allow for toggling between view modes.
