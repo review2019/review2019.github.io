@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="ADAPT Centre, Theme C Demo">
+    <meta name="author" content="Kieran">
+      
+    <link rel="shortcut icon" href="img/favicon.png" type="image/x-icon">
+    <link rel="icon" href="img/favicon.png" type="image/x-icon">
+
+    <title>Theme C Demo</title>
+      
+    <!-- Include HTML setup -->
+    <script src="js/include-setup.js"></script>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom fonts for this template -->
+    <link rel="stylesheet" href="vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="vendor/simple-line-icons/css/simple-line-icons.css">
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/new-age.min.css" rel="stylesheet">
+      
+    <!-- Jquery confirm stylesheet -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+    <style>
+        ::-webkit-scrollbar { display:none }  
+
+        .tooltip {
+            position: absolute;
+            top: 100px;
+            left: 100px;
+            -moz-border-radius:5px;
+            border-radius: 5px;
+            border: 2px solid #000;
+            background: #fff;
+            opacity: .9;
+            color: black;
+            padding: 10px;
+            width: 300px;
+            font-size: 12px;
+            z-index: 10;
+        }
+
+        .tooltip .title {
+            font-size: 13px;
+        }
+
+        .tooltip .name {
+            font-weight:bold;
+        }
+        @font-face {
+            font-family: "hoffman";
+            src: url(./fonts/hoffm__.ttf) format("truetype");
+        }
+        /*p.customfont { 
+            font-family: "My Custom Font", Verdana, Tahoma;
+        }*/
+        @media all and (max-width: 750px) {
+            #demo-container { display: none; }
+            .video-demo { display: block; }
+            .hidden-md { display: none; }
+            
+            #demoVideo {
+                position: absolute;
+                right: 0;
+                bottom: 0;
+                width: 100%;
+                height: 100%;
+                min-width: 100%; 
+                min-height: 100%;
+            }
+
+            
+        }
+        @media all and (min-width: 750px) {
+            .interactive-demo { display: block; }
+            .video-demo { display: none; }
+            .nav-link {
+                color: black !important;
+            }
+        }
+        
+  </style>
+
+  </head>
+
+  <body id="page-top" style=" background-image: url(img/bg1.png);
+    background-size: contain;">
+      
+    
+    <div id="demo-container" class="container interactive-demo" style="position: relative; max-width: 90vw">
+        <div id="toolbar" class="btn-group" role="group" aria-label="Basic example" style="padding-top: 60px; position:absolute">
+            <button id="stop" type="button" class="btn btn-secondary" style="display: none;">Stop</button>
+            <button id="start" type="button" class="btn btn-secondary">Start</button>
+            <button id="replay" type="button" class="btn btn-secondary" style="display: none">Replay</button>
+
+            <div class="card">
+                <div class="card-body" id="time-tracker">
+                    Monday 12:00 am 
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div><strong id="wastedMinutes">0 </strong>minutes wasted</div>
+                </div>
+            </div>
+        </div>
+        <div  style="position: absolute; float: right; top: 0px; right: 0px; height: 400px; width: 150px; overflow-y: scroll;
+                      margin-top: 100px; padding-bottom: 5px; overflow-x: hidden">
+            
+            <div>
+                <div class="input-group mb-3" style="width: 100%;" onclick="featureSelected">
+                  <select id="chooseFeature" class="custom-select" id="inputGroupSelect01"></select>
+                </div>                
+            </div>
+            <ul id='dropdownLegend' class="list-group"></ul>
+        </div>
+        <div id="vis" style="width: 100%; height: 90vh"></div>
+        <div style="position: absolute; height: 35%; width: 35%; bottom: 0;
+                                             right: 40%; z-index: 0;">
+            <img id="man-up" src="img/looking_up.png" style="height: 100%; width: 100%; display: none;"/>
+            <img id="man-left" src="img/looking_left.png" style="height: 100%; width: 100%; display: block;"/>
+            <img id="man-down" src="img/looking_down.png" style="height: 100%; width: 100%; display: none;"/>
+            
+        </div>
+        
+    </div>
+      
+      
+    <div class="container video-demo" style="position: relative; height: 50%;">
+        <iframe width="100%" height="100%" style="padding: 2%" src="https://drive.google.com/file/d/1rT1bbqEh_0e4hmMK8eWXIF1GxwCVYk0W/preview" frameborder="0"  allowfullscreen></iframe>
+
+    </div>
+
+    <div class="alert alert-secondary video-demo" role="alert" style="text-align: center; margin-left: 5%; margin-right: 5%">
+    You can interact with the demo on a desktop size screen!
+    </div>
+      
+    <section class="cta">
+      <div class="cta-content">
+        <div class="container" style="color: white;">
+
+            <div class="col-lg-12 my-auto">
+            <div class="header-content mx-auto">
+                <h5><strong>Personalised Notificationns and Visual User Control</strong></h5>
+                <p>Stuff that couldn't fit in the poster can go here!</p>
+            </div>
+          </div>
+          <div class="col-lg-7 my-auto">
+
+          </div>
+
+        </div>
+      </div>
+      <div class="overlay"></div>
+    </section>
+
+    <div w3-include-html="common/footer.html"></div>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+      
+    <!-- Plugin JavaScript -->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script>
+        includeHTML();
+    </script>
+        
+      
+    <script src="//d3js.org/d3.v5.min.js"></script>
+    <script src="./js/demo.js"></script>
+      
+    
+    <!-- Custom scripts for this template -->
+    <!--<script src="js/new-age.min.js"></script>-->
+      
+      <!--  Clusters: 
+        
+        Unsent notifications
+        Distracting notifications (User)
+        Accepted  notifications (Metric to show e.g. persuasive scale)
+        Dismissed notifications (Metric types of notifications that are being dismissed.)
+
+            Sliders:
+        For time
+
+            Activity:
+        -based on American Survey Data-
+
+
+        -->
+
+  </body>
+
+</html>
