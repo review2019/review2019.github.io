@@ -5,15 +5,15 @@ Set up two additional bars for tracking:
     2) persuasive notifications dismissed (saps willpower)
 Every tick (notification action), identify the bar which is to be added to.
 */
-function willPowerFunc(pOpened, pDismissed){
-    var varWillPower = Math.floor(((gData.length - (pDismissed*3))/gData.length)*100)
+function willPowerChart(gData){
+    d3.select("#willpower-chart").select('svg').select("*").remove();
     var barData = [
-      { name: 'Willpower', num: varWillPower},
-      { name: 'Dismissed', num: pDismissed  },
-      { name: 'Opened', num: pOpened },
+      { name: 'Willpower', num: gData.length},
+      { name: 'Dismissed', num: 0  },
+      { name: 'Opened', num: 0 },
     ]
     // set the dimensions and margins of the graph
-    var margin = {top: 20, right: 20, bottom: 30, left: 40},
+    const margin =  { top: 10, right: 10, bottom: 20, left: 55}
         width = document.getElementById('willpower-chart').offsetWidth - margin.left - margin.right,
         height = document.getElementById('willpower-chart').offsetHeight - margin.top - margin.bottom;
 
@@ -31,10 +31,23 @@ function willPowerFunc(pOpened, pDismissed){
         .attr('height', height + margin.top + margin.bottom)
         .style('position', 'absolute')
         .style('top', 0)
-        .style('left', 0)
+        .style('right', 0)
     
-    const render = () => {
+    const axisContainer = svg.append('g')
+      .attr('transform', `translate(${margin.left}, ${margin.top})`)
 
+
+    axisContainer.append('g')
+      .call(d3.axisLeft(yScale)) // we don't have to move this at all now 
+    
+    const render = (pOpened, pDismissed) => {
+
+        var varWillPower = Math.floor(((gData.length - (pDismissed*3))/gData.length)*100)
+        var barData = [
+          { name: 'Willpower', num: varWillPower},
+          { name: 'Dismissed', num: pDismissed  },
+          { name: 'Opened', num: pOpened },
+        ]
         const bars = d3.select('#willpower-chart')
         .selectAll('div')
         .data(barData, d => d.name)
@@ -53,8 +66,7 @@ function willPowerFunc(pOpened, pDismissed){
         
          
     }
-    render()
-
+    return render
       // append the rectangles for the bar chart
       /*svg.selectAll(".bar")
           .data(barData)

@@ -4,12 +4,13 @@ if(screen.width >= 750){
     var notificationSimulation = null;
     var margin = {left: 20, top: 20, right: 20, bottom: 20}
     var colorFeature = null;
-    var features = ['appName', 'category', 'subject']
+    var features = ['appName', 'category', 'subject', 'persuasiveness']
     var featureSelected;
     var gData = null;
     var tooltip = null;
     var wastedMinutes = 0;
     
+    var willPowerFunc;
     var pDismissed = 0;
     var pOpened = 0;
 
@@ -156,6 +157,7 @@ if(screen.width >= 750){
             p4: d.p4,
             p5: d.p5,
             p6: d.p6,
+            persuasiveness: d.persuasiveness,
             category: d.category,
             subject: d.subject,
             location: d.location,
@@ -321,11 +323,6 @@ if(screen.width >= 750){
                 document.getElementById('man-left').style.display = 'block'
                 document.getElementById('man-down').style.display = 'none'
                 
-                d3.select("#willpower-chart").select("*").remove();
-                document.getElementById('willpower-chart').style.display = 'none'
-
-
-
                 clearInterval(notificationSimulation);
                 colorFeature = this.value;
                 d3.select("#vis").select("svg").remove();
@@ -337,6 +334,15 @@ if(screen.width >= 750){
                 while (elm.hasChildNodes()) {
                   elm.removeChild(elm.lastChild);
                 }
+                
+                if(colorFeature == 'persuasiveness'){
+                    document.getElementById('willpower-card').style.display = 'block'
+                    willPowerFunc = willPowerChart(gData)
+                }
+                else{
+                    document.getElementById('willpower-card').style.display = 'none'
+                }
+                
                 setUpChart(gData)
             });
         }
@@ -495,7 +501,8 @@ if(screen.width >= 750){
                         removed++;
                     }
                 }
-                willPowerFunc(pOpened, pDismissed)
+                if(colorFeature=='persuasiveness')
+                    willPowerFunc(pOpened, pDismissed)
                 if(removed == nodes.length){
                     document.getElementById('replay').style.display = 'block'
                     document.getElementById('start').style.display = 'none'
@@ -525,7 +532,6 @@ if(screen.width >= 750){
             document.getElementById('man-up').style.display = 'block'
             document.getElementById('man-left').style.display = 'none'
             document.getElementById('man-down').style.display = 'none'
-            document.getElementById('willpower-chart').style.display = 'block'
             //splitBubbles();
             startNotificationSimulation();
         } else if(displayName == 'stop') {
@@ -534,7 +540,6 @@ if(screen.width >= 750){
             document.getElementById('man-up').style.display = 'none'
             document.getElementById('man-left').style.display = 'block'
             document.getElementById('man-down').style.display = 'none'
-            document.getElementById('willpower-chart').style.display = 'none'
           clearInterval(notificationSimulation)
           groupBubbles();
         }
@@ -551,13 +556,12 @@ if(screen.width >= 750){
             document.getElementById('man-up').style.display = 'block'
             document.getElementById('man-left').style.display = 'none'
             document.getElementById('man-down').style.display = 'none'
-            d3.select("#willpower-chart").select("*").remove();
             // reset wasted minutes
             wastedMinutes = 0   
             // reset willpower
             pOpened = 0
             pDismissed = 0
-            willPowerFunc(pOpened, pDismissed)
+            willPowerFunc = willPowerChart(gData)
             
             // start
             startNotificationSimulation();
@@ -586,14 +590,25 @@ if(screen.width >= 750){
             n.location = 'Unsent';
             n.day = dayTime[0];
             n.timeOfDay = dayTime[1];
+            n.persuasiveness = calcPersuasiveness(n);
         });
 
         gData = data
         colorFeature = 'appName'    
-
+        
         setUpChart(gData)
 
     });
+        
+    function calcPersuasiveness(n){
+        var persuasiveness = n.p1 + n.p2 + n.p3 + n.p4 + n.p5 + n.p6
+        if(persuasiveness > 2)
+            return 'High'
+        else if(persuasiveness > 1)
+            return 'Medium'
+        else
+            return 'Low'
+    }
 
     function setUpChart(data){
         startingEpoch = data[0].posted - (1000*60*60) // start hour early!
