@@ -20,7 +20,7 @@
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom fonts for this template -->
-    <link rel="stylesheet" href="vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
     <link rel="stylesheet" href="vendor/simple-line-icons/css/simple-line-icons.css">
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900" rel="stylesheet">
@@ -170,9 +170,6 @@
     You can interact with the demo on a desktop size screen!
     </div>
       
-
-            
-      
     <section class="cta">
       <div class="cta-content">
         <div class="container" style="color: white;">
@@ -190,6 +187,32 @@
       </div>
       <div class="overlay"></div>
     </section>
+      
+      
+    <div id="embeddings-container" class="container interactive-demo" style="position: relative; max-width: 90vw">
+        
+        <button id="splitEmbeddings" type="button" class="btn btn-primary" style="position: absolute; margin-top: 2vh">Expand Embeddings</button>
+        
+        <div class="card" style="height: 10vh; width:8vw; position: absolute; right:0;padding: 10px; border: none;">
+            <img src="img/adapt_logo.png" style="height: 100%; width: 100%;"/>
+        </div>
+        <div id="eLegend"  style="position: absolute; float: right; top: 0px; right: 0px; height: 80%; width: 15%;
+                      margin-top: 100px; padding-bottom: 5px; overflow-x: hidden">
+            
+            <div>
+                <div class="input-group mb-3" style="width: 100%;" onclick="eFeatureSelected">
+                  <select id="eChooseFeature" class="custom-select" id="inputGroupSelect01"></select>
+                </div>                
+            </div>
+            <ul id='eDropdownLegend' class="list-group" style="overflow-y: scroll;"></ul>
+        </div>
+        <!--<button id="splitEmbeddings" type="button" class="btn btn-primary" style="position: absolute; bottom:0; right:0;"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></button>-->
+        <div class="card" style="position: absolute; bottom:0; right:0;height:50px; width: 50px; margin: 5px; background: #007bff; padding: 5px; padding:10px; border: none;" onclick="eToggleLegend()">
+            <i id="eToggleLegendArrow" class="fas fa-arrow-right fa-2x" style="color: white"></i>
+        </div>
+
+        <div id="vis-embeddings" style="width: 100%; height: 90vh"></div>
+    </div>
 
     <div w3-include-html="common/footer.html"></div>
 
