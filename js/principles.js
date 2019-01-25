@@ -8,12 +8,12 @@ Every tick (notification action), identify the bar which is to be added to.
 function principlesChart(){
     d3.select("#principles-chart").select('svg').select("*").remove();
     var barData = [
-      { name: 'p1', num: 50},
-      { name: 'p2', num: 50},
-      { name: 'p3', num: 50},
-      { name: 'p4', num: 50},
-      { name: 'p5', num: 50},
-      { name: 'p6', num: 50},
+      { name: 'p1', num: 0},
+      { name: 'p2', num: 0},
+      { name: 'p3', num: 0},
+      { name: 'p4', num: 0},
+      { name: 'p5', num: 0},
+      { name: 'p6', num: 0},
     ]
     // set the dimensions and margins of the graph
     const margin =  { top: 0, right: 0, bottom: 0, left: 20}
@@ -44,14 +44,15 @@ function principlesChart(){
       .call(d3.axisLeft(yScale)) // we don't have to move this at all now 
     
     const render = (p1,p2,p3,p4,p5,p6,numNotifications) => {
+        
         if(numNotifications>0){
             var barData = [
-              { name: 'p1', num: Math.floor((p1/numNotifications)*100)},
-              { name: 'p2', num: Math.floor((p2/numNotifications)*100)},
-              { name: 'p3', num: Math.floor((p3/numNotifications)*100)},
-              { name: 'p4', num: Math.floor((p4/numNotifications)*100)},
-              { name: 'p5', num: Math.floor((p5/numNotifications)*100)},
-              { name: 'p6', num: Math.floor((p6/numNotifications)*100)},
+              { name: 'p1', num: (p1/numNotifications)*100},
+              { name: 'p2', num: (p2/numNotifications)*100},
+              { name: 'p3', num: (p3/numNotifications)*100},
+              { name: 'p4', num: (p4/numNotifications)*100},
+              { name: 'p5', num: (p5/numNotifications)*100},
+              { name: 'p6', num: (p6/numNotifications)*100},
             ]
         }
         const bars = d3.select('#principles-chart')
@@ -75,5 +76,6 @@ function principlesChart(){
         
         } catch(e){}
     }
+    render(0,0,0,0,0,0,1)
     return render    		
 }

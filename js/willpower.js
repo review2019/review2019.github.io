@@ -7,7 +7,7 @@ Every tick (notification action), identify the bar which is to be added to.
 */
 function willPowerChart(gData){
     
-    d3.select("#willpower-chart").select('svg').select("*").remove();
+    d3.select("#willpower-chart").select("*").remove();
     var barData = [
       { name: 'Willpower', num: gData.length},
       { name: 'Dismissed', num: 0  },
@@ -76,6 +76,7 @@ function willPowerChart(gData){
         
          
     }
+    render(0,0)
     return render
       // append the rectangles for the bar chart
       /*svg.selectAll(".bar")
