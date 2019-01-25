@@ -8,21 +8,32 @@ if(screen.width >= 750){
     var colorFeature = null;
     var features = ['appName', 'category', 'subject', 'persuasiveness']
     var featureSelected;
-    
-    // for embedding chart
-    var eColorFeature = null;
-    var eFeatures = ['appName', 'category', 'subject', 'dayOfWeek', 'opened']
-    var eFeatureSelected;
-    var eLegendToggle = true;
+    var pCurrentChart = 'willpower'
     
     var gData = null;
-    var eData = null;
     var tooltip = null;
     var wastedMinutes = 0;
     
     var willPowerFunc;
     var pDismissed = 0;
     var pOpened = 0;
+    
+    var principlesFunc;
+    var p1 = 0;
+    var p2 = 0;
+    var p3 = 0;
+    var p4 = 0;
+    var p5 = 0;
+    var p6 = 0;
+    
+    // for embedding chart
+    var eData = null;
+    var eColorFeature = null;
+    var eFeatures = ['appName', 'category', 'subject', 'dayOfWeek', 'opened']
+    var eFeatureSelected;
+    var eLegendToggle = true;
+    
+    
     
     var embeddingsExpanded = false;
 
@@ -326,6 +337,12 @@ if(screen.width >= 750){
                 wastedMinutes = 0  
                 pOpened = 0
                 pDismissed = 0
+                p1 = 0
+                p2 = 0
+                p3 = 0
+                p4 = 0
+                p5 = 0
+                p6 = 0
                 
                 document.getElementById('replay').style.display = 'none'
                 document.getElementById('start').style.display = 'block'
@@ -348,19 +365,18 @@ if(screen.width >= 750){
                 }
                 
                 if(colorFeature == 'persuasiveness'){
-                    document.getElementById('willpower-card').style.display = 'block'
+                    document.getElementById('persuasive-chart-container').style.display = 'block'
+                    document.getElementById('featureToolbar').style.height = '45%'
                     willPowerFunc = willPowerChart(gData)
+                    principlesFunc = principlesChart();
                 }
                 else{
-                    document.getElementById('willpower-card').style.display = 'none'
+                    document.getElementById('persuasive-chart-container').style.display = 'none'
+                    document.getElementById('featureToolbar').style.height = '80%'
                 }
                 
                 setUpChart(gData)
             });
-        }
-
-        featureSelected = function(){
-            console.log('test');
         }
 
         function dragstarted(d) {
@@ -394,6 +410,12 @@ if(screen.width >= 750){
         wastedMinutes = 0;
         pDismissed = 0;
         pOpened = 0;
+        p1 = 0;
+        p2 = 0;
+        p3 = 0;
+        p4 = 0;
+        p5 = 0;
+        p6 = 0;
 
         nodes.forEach(function(n) {
                 // Calc the persuasiveness
@@ -405,11 +427,22 @@ if(screen.width >= 750){
                         pDismissed+=1
                 }
                 if(n.location == "Opened"){
+                    updatePValues(n)
                     if(persuasiveness>2)
                         pOpened+=1
                 }
+                
         });
         document.getElementById('wastedMinutes').innerHTML = Math.round(wastedMinutes)+' '        
+      }
+        
+      function updatePValues(n){
+          p1 += n.p1
+          p2 += n.p2
+          p3 += n.p3
+          p4 += n.p4
+          p5 += n.p5
+          p6 += n.p6
       }
 
       /*
@@ -513,8 +546,10 @@ if(screen.width >= 750){
                         removed++;
                     }
                 }
-                if(colorFeature=='persuasiveness')
+                if(colorFeature=='persuasiveness'){
                     willPowerFunc(pOpened, pDismissed)
+                    principlesFunc(p1,p2,p3,p4,p5,p6, (pOpened+pDismissed))
+                }
                 if(removed == nodes.length){
                     document.getElementById('replay').style.display = 'block'
                     document.getElementById('start').style.display = 'none'
@@ -573,7 +608,14 @@ if(screen.width >= 750){
             // reset willpower
             pOpened = 0
             pDismissed = 0
+            p1=0
+            p2=0
+            p3=0
+            p4=0
+            p5=0
+            p6=0
             willPowerFunc = willPowerChart(gData)
+            principlesFunc = principlesChart()
             
             // start
             startNotificationSimulation();
@@ -1036,7 +1078,6 @@ if(screen.width >= 750){
         });
 
         eData = data
-        console.log(eData)
         eColorFeature = 'appName'    
         
         setUpEmbeddingChart(eData)
@@ -1112,7 +1153,7 @@ if(screen.width >= 750){
             if(embeddingsExpanded == true)
                 button.text('Group Embeddings')
             else
-                button.text('Expland Embeddings')
+                button.text('Expand Embeddings')
             // Toggle the bubble chart based on
             // the currently clicked button.
             myEmbeddingChart.toggleDisplay(embeddingsExpanded);
@@ -1133,6 +1174,19 @@ if(screen.width >= 750){
         }
     }
 
+    function pToggleChart(){
+        // change the index of willpower or principles charts
+        if(pCurrentChart == 'willpower'){
+            document.getElementById('willpower-card').style.zIndex = 0
+            document.getElementById('principles-card').style.zIndex = 1
+            pCurrentChart = 'principles'
+        }
+        else{
+            document.getElementById('willpower-card').style.zIndex = 1
+            document.getElementById('principles-card').style.zIndex = 0
+            pCurrentChart = 'willpower'
+        }
+    }
      /*
      * Creates tooltip with provided id that
      * floats on top of visualization.

@@ -6,6 +6,7 @@ Set up two additional bars for tracking:
 Every tick (notification action), identify the bar which is to be added to.
 */
 function willPowerChart(gData){
+    
     d3.select("#willpower-chart").select('svg').select("*").remove();
     var barData = [
       { name: 'Willpower', num: gData.length},
@@ -13,9 +14,9 @@ function willPowerChart(gData){
       { name: 'Opened', num: 0 },
     ]
     // set the dimensions and margins of the graph
-    const margin =  { top: 10, right: 10, bottom: 20, left: 55}
-        width = document.getElementById('willpower-chart').offsetWidth - margin.left - margin.right,
-        height = document.getElementById('willpower-chart').offsetHeight - margin.top - margin.bottom;
+    const margin =  { top: 0, right: 10, bottom: 0, left: 55}
+        width = (document.getElementById('willpower-chart').offsetWidth) - margin.left - margin.right,
+        height = (document.getElementById('willpower-chart').offsetHeight/3) - margin.top - margin.bottom;
 
     const xScale = d3.scaleLinear()
 	.domain([0, 100])
@@ -30,7 +31,7 @@ function willPowerChart(gData){
         .attr('width', width + margin.left + margin.right)
         .attr('height', height + margin.top + margin.bottom)
         .style('position', 'absolute')
-        .style('top', 0)
+        .style('top', '25%')
         .style('right', 0)
     
     const axisContainer = svg.append('g')
@@ -40,6 +41,13 @@ function willPowerChart(gData){
     axisContainer.append('g')
       .call(d3.axisLeft(yScale)) // we don't have to move this at all now 
     
+    
+    d3.select('#willpower-chart')
+    .append('div')
+    .attr('id', 'willpowerBarContainer')
+    .style('position', 'absolute')
+    .style('top', '25%')
+    
     const render = (pOpened, pDismissed) => {
 
         var varWillPower = Math.floor(((gData.length - (pDismissed*3))/gData.length)*100)
@@ -48,7 +56,8 @@ function willPowerChart(gData){
           { name: 'Dismissed', num: pDismissed  },
           { name: 'Opened', num: pOpened },
         ]
-        const bars = d3.select('#willpower-chart')
+        
+        const bars = d3.select('#willpowerBarContainer')
         .selectAll('div')
         .data(barData, d => d.name)
 
@@ -57,6 +66,7 @@ function willPowerChart(gData){
         .append('div')
         .attr('class', 'bar')
         .style('width', 0)
+        .style('margin-left', '55px')
 
         // combine the selections so you can act on them together
         newBars.merge(bars)
