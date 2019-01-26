@@ -33,7 +33,8 @@ if(screen.width >= 750){
     var eFeatureSelected;
     var eLegendToggle = true;
     
-    
+    $('#willpower-card').tooltip()
+    $('#principles-card').tooltip()
     
     var embeddingsExpanded = false;
 
@@ -1187,7 +1188,10 @@ if(screen.width >= 750){
             pCurrentChart = 'willpower'
         }
     }
-     /*
+    
+    
+    
+    /*
      * Creates tooltip with provided id that
      * floats on top of visualization.
      * Most styling is expected to come from CSS
@@ -1198,7 +1202,7 @@ if(screen.width >= 750){
       // manipulation in other functions.
       var tt = d3.select('body')
         .append('div')
-        .attr('class', 'tooltip')
+        .attr('class', 'bubbleTooltip')
         .attr('id', tooltipId)
         .style('pointer-events', 'none');
 
