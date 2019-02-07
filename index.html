@@ -66,6 +66,7 @@
         }*/
         @media all and (max-width: 750px) {
             #demo-container { display: none; }
+            #empushy-demo-container { display: none; }
             .video-demo { display: block; }
             .hidden-md { display: none; }
             
@@ -218,6 +219,86 @@
 
         <div id="vis-embeddings" style="width: 100%; height: 90vh"></div>
     </div>
+      
+    <section class="cta">
+      <div class="cta-content">
+        <div class="container" style="color: white;">
+            <div class="col-lg-12 my-auto">
+            <div class="header-content mx-auto">
+                <h5><strong>Personalised Notifications and Visual User Control</strong></h5>
+                <p>Stuff that couldn't fit in the poster can go here!</p>
+            </div>
+          </div>
+          <div class="col-lg-7 my-auto">
+
+          </div>
+
+        </div>
+      </div>
+      <div class="overlay"></div>
+    </section>
+      
+    <div id="empushy-demo-container" class="container interactive-demo" style="position: relative; max-width: 90vw">
+        <div id="empushyToolbar" class="btn-group" role="group" aria-label="Basic example" style="padding-top: 60px; position:absolute">
+            <button id="empushyStop" type="button" class="btn btn-secondary" style="display: none;">Stop</button>
+            <button id="empushyStart" type="button" class="btn btn-secondary">Start</button>
+            <button id="empushyReplay" type="button" class="btn btn-secondary" style="display: none">Replay</button>
+
+            <div class="card">
+                <div class="card-body" id="empushy-time-tracker">
+                    Monday 12:00 am 
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div><strong id="empushyWastedMinutes">0 </strong>minutes wasted</div>
+                </div>
+            </div>
+        </div>
+        <div class="card" style="height: 10vh; width:8vw; position: absolute; right:0;padding: 10px; border: none;">
+            <img src="img/adapt_logo.png" style="height: 100%; width: 100%;"/>
+        </div>
+
+        <div id="empushyFeatureToolbar"  style="position: absolute; float: right; top: 0px; right: 0px; height: 80%; width: 15%;
+                      margin-top: 100px; padding-bottom: 5px; overflow-x: hidden">
+
+            <div>
+                <div class="input-group mb-3" style="width: 100%;" onclick="empushyFeatureSelected">
+                  <select id="empushyChooseFeature" class="custom-select" id="inputGroupSelect01"></select>
+                </div>                
+            </div>
+            <ul id='empushyDropdownLegend' class="list-group" style="overflow-y: scroll;"></ul>
+        </div>
+
+
+        <div id="empushyVis" style="width: 100%; height: 90vh"></div>
+        <div style="position: absolute; height: 35%; width: 35%; bottom: 0;
+                                             right: 40%; z-index: 0;">
+            <img id="empushy-man-up" src="img/looking_up.png" style="height: 100%; width: 100%; display: none;"/>
+            <img id="empushy-man-left" src="img/looking_left.png" style="height: 100%; width: 100%; display: block;"/>
+            <img id="empushy-man-down" src="img/looking_down.png" style="height: 100%; width: 100%; display: none;"/>
+
+        </div>
+    </div>
+      
+    <section class="cta">
+      <div class="cta-content">
+        <div class="container" style="color: white;">
+            <div class="col-lg-12 my-auto">
+            <div class="header-content mx-auto">
+                <h5><strong>Personalised Notifications and Visual User Control</strong></h5>
+                <p>Stuff that couldn't fit in the poster can go here!</p>
+            </div>
+          </div>
+          <div class="col-lg-7 my-auto">
+
+          </div>
+
+        </div>
+      </div>
+      <div class="overlay"></div>
+    </section>
+      
 
     <div w3-include-html="common/footer.html"></div>
 
@@ -235,9 +316,10 @@
       
     <script src="//d3js.org/d3.v5.min.js"></script>
     <script src="./js/demo.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.14.2/dist/tf.min.js"></script>
+    <script src="./js/demo_empushy.js"></script>
     <script src="./js/willpower.js"></script>
     <script src="./js/principles.js"></script>
-      
     
     <!-- Custom scripts for this template -->
     <!--<script src="js/new-age.min.js"></script>-->
