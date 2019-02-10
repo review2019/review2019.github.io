@@ -1,3 +1,12 @@
+/*
+What expect to see:
+- majority of notifications cached are those that had 'dismissed' as action
+- some of notifications cached can be 'open'
+- notice that 'cached' notifications, previously 'dismissed' are now opened.
+- (Possibly change color of node to make this more noticable)
+*/
+
+
 if(screen.width >= 750){
     var empushyStartingEpoch = null;
     var empushyCurrentEpoch = null;
@@ -6,7 +15,7 @@ if(screen.width >= 750){
     
     // for top chart
     var empushyColorFeature = null;
-    var empushyFeatures = ['appName', 'category', 'subject', 'persuasiveness']
+    var empushyFeatures = ['appName', 'category', 'subject', 'opened', 'persuasiveness']
     var empushyFeatureselected;
     
     var empushyGData = null;
@@ -14,7 +23,14 @@ if(screen.width >= 750){
     var empushyWastedMinutes = 0;
     
     // RL model for predicting actions
-    var model = loadEmPushyModel()
+    var model = null
+    
+    var shownList = []
+    var dismissedList = []
+    var cachedList = []
+    
+    // Interval with which to check the cache e.g. every 5 mins
+    var checkCacheInterval = 30
     
     /*
     *
@@ -30,12 +46,28 @@ if(screen.width >= 750){
     }
 
     /*
-    *
+    * Updates the current epoch.
+    * Based on checkCacheInterval, also issues check-cache action.
+    * Pops n from cachedList, 
     */
-    function updateEpoch(){
+    var previousInterval = 0
+    function updateEpoch(nodes){
         empushyCurrentEpoch = empushyCurrentEpoch + ((20000))
         dayTime = epochToDayTime(empushyCurrentEpoch)
         document.getElementById('empushy-time-tracker').innerHTML = dayTime[0] + ' ' + dayTime[1];
+        // check divisible by the interval
+        isInterval = (parseInt(dayTime[1].split(':')[1]) % checkCacheInterval == 0)
+        diffFromPrevious = !(previousInterval == parseInt(dayTime[1].split(':')[1]))
+        if(nodes !=null && isInterval && diffFromPrevious){
+            previousInterval = parseInt(dayTime[1].split(':')[1])
+            
+            // get last notification posted - set as context
+            // get list values
+            // for every node in the cached list, extract n_emb
+            // concat with c_emb and list values.. predict action
+            // update node location
+            
+        }
     }
 
 
@@ -45,7 +77,7 @@ if(screen.width >= 750){
       var height = document.getElementById('empushy-demo-container').offsetHeight;
 
 
-      var empushyTooltip = floatingempushyTooltip('gates_empushyTooltip', 240);
+      var empushyTooltip = floatingEmpushyTooltip('gates_empushyTooltip', 240);
 
       // Locations to move bubbles towards, depending
       // on which view mode is selected.
@@ -168,7 +200,9 @@ if(screen.width >= 750){
             location: d.location,
             posted: d.posted,
             removed: d.removed,
-            opened: d.action,
+            opened: (d.action=="True"),
+            n_embeddings: d.n_embeddings,
+            c_embeddings: d.c_embeddings,
             x: Math.random() * 900,
             y: Math.random() * 800
           };
@@ -484,14 +518,36 @@ if(screen.width >= 750){
             // update the labels
             splitBubbles();
             empushyNotificationSimulation = setInterval(function(){
-                updateEpoch();
+                updateEpoch(nodes);
                 var removed = 0;
                 // check if node is relevant to epoch, update position if necessary
                 for(node of nodes){
                     if(empushyCurrentEpoch > node.posted && empushyCurrentEpoch < node.removed ){
-                        node.location = "Distracting"
+                        // Here send to agent to predict action of show, dismiss or cache
+                        // if 0 - 'distracting', if 1 - 'dismissed', if 2 - 'empushy',
+                        var agent_action = 4
+                        var actionCount = 0
+                        while(agent_action == 4 && actionCount < 5){
+                            agent_action = predictAction(createObservation(node))
+                            actionCount++
+                        }
+                        
+                        if(agent_action == 0){
+                            node.location = "Distracting"
+                        }
+                        else if(agent_action == 1){
+                            node.location = "Dismissed"
+                        }
+                        else if(agent_action == 2){
+                            node.location = "EmPushy"
+                        }
+                        else{
+                            console.log('invalid action: '+agent_action)
+                            node.location = "Distracting"
+                        }
                     }
-                    else if(empushyCurrentEpoch > node.removed){
+                    else if(empushyCurrentEpoch > node.removed && node.location == "Distracting"){
+                        // && if empushyCurrentEpoch location is distracting!
                         if(node.opened == true)
                             node.location = "Opened"
                         else{
@@ -588,6 +644,8 @@ if(screen.width >= 750){
         data.sort(function(a, b) { 
             return a.time - b.time;
         })    
+        
+        loadEmPushyModel()
 
         // data = data.filter(d => d.System != "");
         var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday' ]
@@ -658,7 +716,7 @@ if(screen.width >= 750){
     }
     
     async function loadEmPushyModel(){
-        return await tf.loadModel('./js/dqn_js/model.json');
+        model = await tf.loadModel('./js/dqn_js/model.json');
     }
     
     /* Takes combination of the notification embedding and 
@@ -677,18 +735,26 @@ if(screen.width >= 750){
         return result.indexOf(Math.max(...result));
     }
     
+    function createObservation(node){
+        var combEmb = JSON.parse(node.n_embeddings).concat(JSON.parse(node.c_embeddings))
+        combEmb = combEmb.concat(dismissedList.length)
+        combEmb = combEmb.concat(shownList.length)
+        combEmb = combEmb.concat(cachedList.length)
+        return combEmb
+    }
+    
     /*
      * Creates empushyTooltip with provided id that
      * floats on top of visualization.
      * Most styling is expected to come from CSS
      * so check out bubble_chart.css for more details.
      */
-    function floatingempushyTooltip(empushyTooltipId, width) {
+    function floatingEmpushyTooltip(empushyTooltipId, width) {
       // Local variable to hold empushyTooltip div for
       // manipulation in other functions.
       var tt = d3.select('body')
         .append('div')
-        .attr('class', 'bubbleempushyTooltip')
+        .attr('class', 'bubbleTooltip')
         .attr('id', empushyTooltipId)
         .style('pointer-events', 'none');
 
