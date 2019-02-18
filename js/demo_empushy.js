@@ -30,7 +30,7 @@ if(screen.width >= 750){
     var cachedList = []
     
     // Interval with which to check the cache e.g. every 5 mins
-    var checkCacheInterval = 30
+    var checkCacheInterval = 1
     
     /*
     *
@@ -62,14 +62,35 @@ if(screen.width >= 750){
             previousInterval = parseInt(dayTime[1].split(':')[1])
             
             // get last notification posted - set as context
-            // get list values
+            last_n = getLastNotificationPosted(empushyCurrentEpoch, nodes)
             // for every node in the cached list, extract n_emb
+            this_n = cachedList.shift();
+            if(this_n != null && last_n!=null){
+                this_n.c_embeddings = last_n.c_embeddings
+                agentAct(this_n)
+            }
+            
+            /*cachedList.forEach(function(n){
+                n.c_embeddings = last_n.c_embeddings
+            })
+            for(i=0; i<cachedList.length; i++)
+                agentAct(cachedList.shift())*/
             // concat with c_emb and list values.. predict action
             // update node location
             
+            
         }
     }
-
+    
+    function getLastNotificationPosted(curEpoch, nodes){
+        foundN = nodes[0]
+        nodes.forEach(function(n){
+                 if(n.posted < curEpoch && n.posted >= foundN.posted)
+                        foundN = n
+        })
+        console.log(foundN)
+        return foundN
+    }
 
     function bubbleChart(nodeColors) {
       // Constants for sizing
@@ -85,8 +106,8 @@ if(screen.width >= 750){
 
       var yearCenters = {
         'Unsent': { x: width / 8, y: height / 2 },
-        'EmPushy': {x: width / 2.5, y: height / 2.5},
-        'Distracting': { x: width / 2.5, y: height - (height / 2.5) },
+        'EmPushy': {x: width / 2.5, y: height / 3.05},
+        'Distracting': { x: width / 2.5, y: height - (height / 2) },
         'Dismissed': { x: width - (width/3), y: height - (height / 3) },
         'Opened': { x: width - (width/3), y: height/3 }
       };
@@ -94,19 +115,35 @@ if(screen.width >= 750){
       // X locations of the year titles.
       var yearsTitleX = {
         'Unsent': width/8,
-        'EmPushy': width/2.5,
-        'Distracting': width/2.5,
+        'EmPushy': width/2.42,
         'Dismissed': width - (width/3),
         'Opened': width - (width/3)
       };
       // Y locations of locations
       var yearsTitleY = {
         'Unsent': height - (height / 3.5),
-        'EmPushy': height/3.7,
-        'Distracting': height - (height / 2.3),
+        'EmPushy': height/4,
         'Dismissed': height - (height/6),
         'Opened': height/5
       };
+        
+        // X locations of the year titles.
+      var imagesX = {
+        'Smartphone': (width/2.55)-25,
+          'Cloud': (width/2.55)-25,
+      };
+      // Y locations of locations
+      var imagesY = {
+        'Smartphone': height - (height / 1.85),
+        'Cloud': height/3.9,
+      };
+        
+      var imagesRef = {
+          'Smartphone': './img/smartphone.png',
+          'Cloud': './img/cloud.png',
+      }
+        
+        
 
       // @v4 strength to apply to the position forces
       var forceStrength = 0.03;
@@ -184,7 +221,7 @@ if(screen.width >= 750){
         // working with data.
         var myNodes = rawData.map(function (d) {
           return {
-            id: d.id,
+            id: d.posted,
             radius: 5,
             value: 20,
             appName: d.appPackage,
@@ -249,6 +286,7 @@ if(screen.width >= 750){
         //  enter selection to apply our transtition to below.
         var bubblesE = bubbles.enter().append('circle')
           .classed('bubble', true)
+          .attr('id', function(d){ return "n_"+Math.floor(d.id).toString(); })
           .attr('r', 0)
           .attr('fill', function (d) { return fillColor(d[empushyColorFeature]); })
           //.attr('stroke', function (d) { return d3.rgb(fillColor(d[empushyColorFeature])).darker(); })
@@ -491,6 +529,7 @@ if(screen.width >= 750){
        */
       function hideYearTitles() {
         svg.selectAll('.year').remove();
+        svg.selectAll('.smartphone').remove();
       }  
 
       /*
@@ -510,9 +549,24 @@ if(screen.width >= 750){
           .attr('y', function(d) {return yearsTitleY[d];})
           .attr('text-anchor', 'middle')
           .text(function (d) { return d; });
+          
+        // add image
+        var yearsData = d3.keys(imagesX);
+        var images = svg.selectAll('.smartphone').data(yearsData)
+          
+        images.enter().append('svg')
+            .attr('width', '100px')
+            .attr('height', '100px')   
+            .attr("x", function(d) {return imagesX[d];})
+            .attr("y", function(d) {return imagesY[d];})         
+            .append("svg:image")
+              .attr('class', 'smartphone')
+                .attr('width', '100%')
+                .attr('height', '100%')
+              .attr("xlink:href", function(d) {return imagesRef[d];})
       }
 
-        function startempushyNotificationSimulation() {
+        function startEmpushyNotificationSimulation() {
 
 
             // update the labels
@@ -522,29 +576,9 @@ if(screen.width >= 750){
                 var removed = 0;
                 // check if node is relevant to epoch, update position if necessary
                 for(node of nodes){
-                    if(empushyCurrentEpoch > node.posted && empushyCurrentEpoch < node.removed ){
+                    if(empushyCurrentEpoch >= node.posted && empushyCurrentEpoch < node.removed && node.location == 'Unsent'){
                         // Here send to agent to predict action of show, dismiss or cache
-                        // if 0 - 'distracting', if 1 - 'dismissed', if 2 - 'empushy',
-                        var agent_action = 4
-                        var actionCount = 0
-                        while(agent_action == 4 && actionCount < 5){
-                            agent_action = predictAction(createObservation(node))
-                            actionCount++
-                        }
-                        
-                        if(agent_action == 0){
-                            node.location = "Distracting"
-                        }
-                        else if(agent_action == 1){
-                            node.location = "Dismissed"
-                        }
-                        else if(agent_action == 2){
-                            node.location = "EmPushy"
-                        }
-                        else{
-                            console.log('invalid action: '+agent_action)
-                            node.location = "Distracting"
-                        }
+                        agentAct(node)
                     }
                     else if(empushyCurrentEpoch > node.removed && node.location == "Distracting"){
                         // && if empushyCurrentEpoch location is distracting!
@@ -590,7 +624,7 @@ if(screen.width >= 750){
             document.getElementById('empushy-man-left').style.display = 'none'
             document.getElementById('empushy-man-down').style.display = 'none'
             //splitBubbles();
-            startempushyNotificationSimulation();
+            startEmpushyNotificationSimulation();
         } else if(displayName == 'empushyStop') {
           document.getElementById('empushyStop').style.display = 'none'
           document.getElementById('empushyStart').style.display = 'block'
@@ -628,7 +662,7 @@ if(screen.width >= 750){
             principlesFunc = principlesChart()
             
             // start
-            startempushyNotificationSimulation();
+            startEmpushyNotificationSimulation();
         }
       };
 
@@ -741,6 +775,35 @@ if(screen.width >= 750){
         combEmb = combEmb.concat(shownList.length)
         combEmb = combEmb.concat(cachedList.length)
         return combEmb
+    }
+    
+    function agentAct(node){
+        // if 0 - 'distracting', if 1 - 'dismissed', if 2 - 'empushy',
+        var agent_action = 4
+        var actionCount = 0
+        while(agent_action == 4 && actionCount < 5){
+            agent_action = predictAction(createObservation(node))
+            actionCount++
+        }            
+
+        if(agent_action == 0){
+            node.location = "Distracting"
+            shownList.push(node)
+        }
+        else if(agent_action == 1){
+            node.location = "Dismissed"
+            dismissedList.push(node)
+        }
+        else if(agent_action == 2){
+            node.location = "EmPushy"
+            cachedList.push(node)
+            d3.select("#n_"+Math.floor(node.id).toString())
+                .style('stroke-width', 3);
+        }
+        else{
+            node.location = "Distracting"
+            shownList.push(node)
+        }
     }
     
     /*
