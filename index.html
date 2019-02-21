@@ -305,30 +305,19 @@
       
     <section class="cta" style="background: #7197cf !important;">
       <div class="cta-content">
-        <div class="container" style="color: white; min-width:95%;">
+        <div class="container" style="color: white; min-width:50%;">
             <div class="row">
-                <div class="col-md-8">
-                    <div style="text-align: center;">
-                        <h5 style="min-width: 100%;">Notification Embeddings</h5>
-                    </div>
-                    <ul>
-                    <li>Notification embeddings were created to represent notification entities in a multi-dimensional vector space</li> 
-                    </ul>
-                    <p>Representing notifications as vectors has the following benefits: </p>
-                    <ul>
-                        <li>Notification embeddings were created to represent notification entities in a multi-dimensional vector space.</li>
-                    </ul>
+                <div class="col-md-6">
+                    <h4>Entity</h4>
+                    <p>Each bubble above represents a <i>Notification</i> entity and each entity contains a number of features, such as the <i>app</i> from which it was sent, the <i>subject</i> of the content, the <i>time of day</i> it was received and so on. In order to use this information to train and implement intelligent algorithms (such as common Machine Learning algorithms), the <i>Notification</i> entity needs to be converted to machine readable format i.e. a vector of numerical values.</p>
+                    <h4>One-Hot Encoding</h4>
+                    <p>Categorical data types, such as the <i>app</i> or <i>subject</i> would subsequently need to be converted to numerical representations via <i>One-Hot Encoding</i>, thus vastly increasing the vector size, depending on the number of unique  values per categorical feature.</p>
                 </div>
-                <div class="col-md-4">
-                    <div style="text-align: center">
-                        <a data-fancybox="gallery" href="img/avgNotificationAcceptance.png"><img src="img/avgNotificationAcceptance.png" style="width:100%;" alt="Oops" class="responsive"></a>
-                        <p>People dismiss as many notification as they open</p>
-                    </div>
-                    <div style="text-align: center">
-                        <a data-fancybox="gallery" href="img/ctr.png"><img src="img/ctr.png" style="width:100%;" alt="Oops" class="responsive"></a>
-                        
-                        <p>Personalised &amp; Persuasive notifications = higher CTR%</p>
-                    </div>
+                <div class="col-md-6">
+                    <h4>Embedding Model</h4>
+                    <p>As an alternative to <i>One-Hot Encoding</i> the features of the <i>Notification</i> entity, an embedding model can be learned which can convert the <i>Notification</i> entity to a vector with fewer dimensions (than a <i>One-Hot Encoded</i> vector) by training it on a simple supervised ML task. For example, the task of predicting the action a user takes on a notification (open/dismiss) given the notification and context features.</p>
+                    <p>The neat aspect of the embedding model is that it not only converts the <i>Notification</i> entity to machine readable form, but it also learns to represent each notification in a meaningful way such that notifications which prompt similar behaviours are closer in the multi-dimensional vector space. This occurs <u style="text-decoration: underline;">because</u> the vector dimension is reduced - the model is forced to learn higher-level features as there are not enough dimensions for each individual feature value. </p>
+                    <p>The result can be viewed above by expanding the cluster of notifications. The position of each bubble is the visualisation of its corresponding embedding value <br><strong>Note:</strong> embeddings converted to 2-dimensional space for display purposes.</p>
                 </div>
             </div>
         </div>
