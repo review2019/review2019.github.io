@@ -25,6 +25,8 @@
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
+      
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.6/dist/jquery.fancybox.min.css" />
 
     <!-- Custom styles for this template -->
     <link href="css/new-age.min.css" rel="stylesheet">
@@ -102,6 +104,10 @@
           background-color: teal;
           height: 20px;
           margin-top: 2px;
+        }
+        
+        section.cta{
+            padding: 100px 0;
         }
         
   </style>
@@ -187,21 +193,89 @@
       
     <section class="cta" style="background: #59358c !important;">
       <div class="cta-content">
-        <div class="container" style="color: white;">
-            <div class="col-lg-12 my-auto">
-            <div class="header-content mx-auto">
-                <h5><strong>Personalised Notifications and Visual User Control</strong></h5>
-                <p>Stuff that couldn't fit in the poster can go here!</p>
+        <div class="container" style="color: white; min-width:95%;">
+            <div class="row">
+                <div class="col-md-4">
+                        <div style="text-align: center;">
+                            <h5 style="min-width: 100%;">Distraction</h5>
+                        </div>
+                        
+                        <ul>
+                            <li>Push-notifications began as a mechanism for alerting people they had new mail in their inbox</li>
+                            <li>As app engagement and time-online became a commercial driver, push-notifications were used to persuade increased app usage</li>
+                        </ul>
+                    <div style="text-align: center;"><u style="text-decoration: underline; text-align: center;">Result</u></div>
+                    <ul>
+                        <li>Push-notifications compete for user attention</li>
+                        <li>Information overload</li>
+                        <li>Limited end-user control</li>
+                        <li>Smartphone addiction</li>
+                        <li>Increased anxiety, FOMO, NOMOPHOBIA</li>
+                    </ul>
+                    <div style="text-align: center">
+                        <a data-fancybox="gallery" href="img/numNotificationDay.png"><img src="img/numNotificationDay.png" style="width:100%;" alt="Oops" class="responsive"></a>
+                        <p>People receive, on average, approx. 60 notifications per day</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div style="text-align: center">
+                        <a data-fancybox="gallery" href="img/avgNotificationAcceptance.png"><img src="img/avgNotificationAcceptance.png" style="width:100%;" alt="Oops" class="responsive"></a>
+                        <p>People dismiss as many notification as they open</p>
+                    </div>
+                    <div style="text-align: center">
+                        <a data-fancybox="gallery" href="img/ctr.png"><img src="img/ctr.png" style="width:100%;" alt="Oops" class="responsive"></a>
+                        
+                        <p>Personalised &amp; Persuasive notifications = higher CTR%</p>
+                    </div>
+                    <div style="text-align: center">
+                        <a data-fancybox="gallery" href="img/pImportance.png"><img src="img/pImportance.png" style="width:100%;" alt="Oops" class="responsive"></a>
+                        <p>Persuasive Features perform best when predicting whether a user will open or dismiss a notification</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                        <div style="text-align: center;">
+                            <h5 style="min-width: 100%;">Persuasion</h5>
+                        </div>
+                        <p>In our work*, Cialdini's 6 principle's of persuasion are extracted from push-notifications to scrutinize how designers may be manipulating us into opening notifications. Cialidini's principles are as follows:</p>
+                        <ul>
+                            <li><i>Authority</i> (P1)<br>People follow and respect requests made by an authority
+                            </li>
+                            <li><i>Scarcity</i> (P2)<br>People will place higher value on something which is rare
+                            </li>
+                            <li><i>Liking</i> (P3)<br>People will follow what they like
+                            </li>
+                            <li><i>Social Proof</i> (P4)<br>People will do what they see their peers doing
+                            </li>
+                            <li><i>Commitment &amp; Consistency</i> (P5)<br>People tend to follow through on their word and uphold behaviours associated with their own self-image.
+                            </li>
+                            <li><i>Reciprocity</i> (P6)<br>People feel obliged to return a favour
+                            </li>
+                        </ul>
+                    <p>* Full results to be presented at <a href="https://www.persuasive2019.org/" target="_blank">Persuasive Technology 2019</a></p>
+                </div>
             </div>
-          </div>
-          <div class="col-lg-7 my-auto">
-
-          </div>
-
         </div>
       </div>
       <div class="overlay"></div>
     </section>
+      
+    <!-- Creates the bootstrap modal where the image will appear -->
+    <div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title" id="myModalLabel">Image preview</h4>
+          </div>
+          <div class="modal-body">
+            <img src="" id="imagepreview" style="width: 400px; height: 264px;" >
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
       
       
     <div id="embeddings-container" class="container interactive-demo" style="position: relative; max-width: 90vw">
@@ -231,17 +305,32 @@
       
     <section class="cta" style="background: #7197cf !important;">
       <div class="cta-content">
-        <div class="container" style="color: white;">
-            <div class="col-lg-12 my-auto">
-            <div class="header-content mx-auto">
-                <h5><strong>Personalised Notifications and Visual User Control</strong></h5>
-                <p>Stuff that couldn't fit in the poster can go here!</p>
+        <div class="container" style="color: white; min-width:95%;">
+            <div class="row">
+                <div class="col-md-8">
+                    <div style="text-align: center;">
+                        <h5 style="min-width: 100%;">Notification Embeddings</h5>
+                    </div>
+                    <ul>
+                    <li>Notification embeddings were created to represent notification entities in a multi-dimensional vector space</li> 
+                    </ul>
+                    <p>Representing notifications as vectors has the following benefits: </p>
+                    <ul>
+                        <li>Notification embeddings were created to represent notification entities in a multi-dimensional vector space.</li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <div style="text-align: center">
+                        <a data-fancybox="gallery" href="img/avgNotificationAcceptance.png"><img src="img/avgNotificationAcceptance.png" style="width:100%;" alt="Oops" class="responsive"></a>
+                        <p>People dismiss as many notification as they open</p>
+                    </div>
+                    <div style="text-align: center">
+                        <a data-fancybox="gallery" href="img/ctr.png"><img src="img/ctr.png" style="width:100%;" alt="Oops" class="responsive"></a>
+                        
+                        <p>Personalised &amp; Persuasive notifications = higher CTR%</p>
+                    </div>
+                </div>
             </div>
-          </div>
-          <div class="col-lg-7 my-auto">
-
-          </div>
-
         </div>
       </div>
       <div class="overlay"></div>
@@ -329,6 +418,8 @@
     <script src="./js/demo_empushy.js"></script>
     <script src="./js/willpower.js"></script>
     <script src="./js/principles.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.6/dist/jquery.fancybox.min.js"></script>
+    
     
     <!-- Custom scripts for this template -->
     <!--<script src="js/new-age.min.js"></script>-->
