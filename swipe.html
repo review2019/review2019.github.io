@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="ADAPT Centre, Theme C Demo">
+    <meta name="author" content="Kieran">
+      
+    <link rel="shortcut icon" href="img/favicon.png" type="image/x-icon">
+    <link rel="icon" href="img/favicon.png" type="image/x-icon">
+
+    <title>Swipe</title>
+      
+    <!-- Include HTML setup -->
+    <script src="js/include-setup.js"></script>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+    <!-- Custom fonts for this template -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="vendor/simple-line-icons/css/simple-line-icons.css">
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
+      
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.6/dist/jquery.fancybox.min.css" />
+
+    <!-- Custom styles for this template -->
+    <link href="css/new-age.min.css" rel="stylesheet">
+    <link href="css/swipe.css" rel="stylesheet">
+      
+    <!-- Jquery confirm stylesheet -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+    <style>
+        ::-webkit-scrollbar { display:none }  
+
+        section.cta .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,.3);
+        }
+        
+        section.cta{
+            padding: 100px 0;
+        }
+        
+        body, html {
+          height: 100%;
+        }
+
+        .parallax {
+          /* The image used */
+          background-image: url('./img/bg1.png');
+
+          /* Full height */
+          height: 90%; 
+
+          /* Create the parallax scrolling effect */
+          background-attachment: fixed;
+          background-position: center;
+          background-repeat: no-repeat;
+          background-size: cover;
+        }
+        
+  </style>
+
+  </head>
+
+  <body id="page-top" style="background-size: contain;">
+      
+    
+    <div id="demo-container" class="container interactive-demo parallax" style="position: relative; max-width: 99vw">
+        <div class="demo">
+          <header class="demo__header"></header>
+          <div class="demo__content">
+            <div class="demo__card-cont">
+              
+              <div class="demo__card">
+                <div class="demo__card__top">
+                  <div class="demo__card__img"></div>
+                  <p class="demo__card__name">WhatsApp</p>
+                </div>
+                <div class="demo__card__btm">
+                  <p class="demo__card__we">
+                      You received a message from <strong>WhatsApp</strong> during <strong>Wednesday morning</strong>.
+                      <br>
+                      <br>
+                      The content of the message was <strong>Games</strong>.
+                  </p>
+                </div>
+                <div class="demo__card__choice m--reject"></div>
+                <div class="demo__card__choice m--like"></div>
+                <div class="demo__card__drag"></div>
+              </div>
+                
+            </div>
+            <p class="demo__tip">Swipe notification left or right</p>
+          </div>
+        </div>
+    </div>
+    
+      
+    <section class="cta" style="background: #59358c !important;">
+      <div class="cta-content">
+        <div class="container" style="color: white; min-width:95%;">
+            <div class="row">
+                <div class="col-md-4">
+                        <div style="text-align: center;">
+                            <h5 style="min-width: 100%;">Distraction</h5>
+                        </div>
+                        
+                        <ul>
+                            <li>Push-notifications began as a mechanism for alerting people they had new mail in their inbox</li>
+                            <li>As app engagement and time-online became a commercial driver, push-notifications were used to persuade increased app usage</li>
+                        </ul>
+                    <div style="text-align: center;"><u style="text-decoration: underline; text-align: center;">Result</u></div>
+                    <ul>
+                        <li>Push-notifications compete for user attention</li>
+                        <li>Information overload</li>
+                        <li>Limited end-user control</li>
+                        <li>Smartphone addiction</li>
+                        <li>Increased anxiety, FOMO, NOMOPHOBIA</li>
+                    </ul>
+                    <div style="text-align: center">
+                        <a data-fancybox="gallery" href="img/numNotificationDay.png"><img src="img/numNotificationDay.png" style="width:100%;" alt="Oops" class="responsive"></a>
+                        <p>People receive, on average, approx. 60 notifications per day</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div style="text-align: center">
+                        <a data-fancybox="gallery" href="img/avgNotificationAcceptance.png"><img src="img/avgNotificationAcceptance.png" style="width:100%;" alt="Oops" class="responsive"></a>
+                        <p>People dismiss as many notification as they open</p>
+                    </div>
+                    <div style="text-align: center">
+                        <a data-fancybox="gallery" href="img/ctr.png"><img src="img/ctr.png" style="width:100%;" alt="Oops" class="responsive"></a>
+                        
+                        <p>Personalised &amp; Persuasive notifications = higher CTR%</p>
+                    </div>
+                    <div style="text-align: center">
+                        <a data-fancybox="gallery" href="img/pImportance.png"><img src="img/pImportance.png" style="width:100%;" alt="Oops" class="responsive"></a>
+                        <p>Persuasive Features perform best when predicting whether a user will open or dismiss a notification</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                        <div style="text-align: center;">
+                            <h5 style="min-width: 100%;">Persuasion</h5>
+                        </div>
+                        <p>In our work*, Cialdini's 6 principle's of persuasion are extracted from push-notifications to scrutinize how designers may be manipulating us into opening notifications. Cialidini's principles are as follows:</p>
+                        <ul>
+                            <li><i>Authority</i> (P1)<br>People follow and respect requests made by an authority
+                            </li>
+                            <li><i>Scarcity</i> (P2)<br>People will place higher value on something which is rare
+                            </li>
+                            <li><i>Liking</i> (P3)<br>People will follow what they like
+                            </li>
+                            <li><i>Social Proof</i> (P4)<br>People will do what they see their peers doing
+                            </li>
+                            <li><i>Commitment &amp; Consistency</i> (P5)<br>People tend to follow through on their word and uphold behaviours associated with their own self-image.
+                            </li>
+                            <li><i>Reciprocity</i> (P6)<br>People feel obliged to return a favour
+                            </li>
+                        </ul>
+                    <p>* Full results to be presented at <a href="https://www.persuasive2019.org/" target="_blank">Persuasive Technology 2019</a></p>
+                </div>
+            </div>
+        </div>
+      </div>
+      <div class="overlay"></div>
+    </section>
+      
+    <!-- Creates the bootstrap modal where the image will appear -->
+    <div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title" id="myModalLabel">Image preview</h4>
+          </div>
+          <div class="modal-body">
+            <img src="" id="imagepreview" style="width: 400px; height: 264px;" >
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+      
+      
+    <div w3-include-html="common/footer.html"></div>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
+    <script src="js/swipe.js"></script>
+      
+    <!-- Plugin JavaScript -->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script>
+        includeHTML();
+    </script>
+      
+    <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.6/dist/jquery.fancybox.min.js"></script>
+
+  </body>
+
+</html>

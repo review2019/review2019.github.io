@@ -1,0 +1,145 @@
+*, *:before, *:after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+html, body {
+  font-size: 62.5%;
+}
+.demo {
+    position: relative;
+    margin: auto;
+    width: 20vw;
+    height: 90%;
+    margin-top: 2%;
+    background: #f6f6f5;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+}
+.demo__header {
+  height: 5%;
+  /*background-color: #16af97;*/
+  background-color: #59358c;
+}
+.demo__content {
+  background-color: #7197cf;
+  overflow: hidden;
+  position: relative;
+  height: 100%;
+  padding-top: 5%;
+  user-select: none;
+}
+.demo__card-cont {
+  position: relative;
+  width: 90%;
+  height: 90%;
+  margin: 0 auto 5%;
+}
+.demo__card {
+  z-index: 2;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  transform-origin: 50% 100%;
+}
+.demo__card.reset {
+  transition: transform 0.3s;
+  transform: translateX(0) !important;
+}
+.demo__card.reset .demo__card__choice {
+  transition: opacity 0.3s;
+  opacity: 0 !important;
+}
+.demo__card.inactive {
+  transition: transform 0.3s;
+}
+.demo__card.to-left {
+  transform: translateX(-30rem) rotate(-30deg) !important;
+}
+.demo__card.to-right {
+  transform: translate(30rem) rotate(30deg) !important;
+}
+.demo__card.below {
+  z-index: 1;
+}
+.demo__card__top {
+  height: 25%;
+  padding: 5%;
+  background-color: #59358c;
+}
+.demo__card__img {
+  overflow: hidden;
+  width: 90px;
+  height: 90px;
+  margin: 0 auto 5%;
+  border-radius: 50%;
+  background-color: #16af97;
+  background-image: url('/img/notification.png');
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.demo__card__name {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #fff;
+}
+.demo__card__btm {
+  height: 75%;
+  background: #fff;
+  overflow: scroll;
+  
+}
+.demo__card__btm p {
+    font-size: 2em !important;
+}
+
+.demo__card__we {
+  text-align: center;
+  padding: 2%;
+}
+.demo__card__choice {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+}
+.demo__card__choice:before {
+  content: "";
+  position: absolute;
+  margin:auto;
+  width: 100%;
+  height: 100%;
+}
+.demo__card__choice:after {
+  content: "";
+  position: absolute;
+  margin:auto;
+  width: 100%;
+  height: 100%;
+  background-image: url('/img/unchecked.png');
+}
+.demo__card__choice.m--reject {
+  background: red;
+}
+.demo__card__choice.m--like {
+  background: green;
+}
+.demo__card__choice.m--like:after {
+  background-image: url('/img/checked.png');
+}
+.demo__card__drag {
+  z-index: 5;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+}
+.demo__tip {
+  text-align: center;
+  color: white;
