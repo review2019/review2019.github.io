@@ -19,6 +19,9 @@ html, body {
   height: 5%;
   /*background-color: #16af97;*/
   background-color: #59358c;
+  color: white;
+  padding: 1%;
+  text-align: center;
 }
 .demo__content {
   background-color: #7197cf;

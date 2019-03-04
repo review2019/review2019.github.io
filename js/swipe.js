@@ -1,13 +1,23 @@
-const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+
 
 $(document).ready(function() {
-  var animating = false;
-  var cardsCounter = 0;
-  var numOfCards = 6;
-  var decisionVal = 80;
-  var pullDeltaX = 0;
-  var deg = 0;
-  var $card, $cardReject, $cardLike;
+    const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    var cards = [];
+    var currentCardIndex = -1;
+    
+    var totalSwiped = []
+    var swipedWindow = []
+    
+    var previousTData = []
+    var currentTData = []
+    
+    var animating = false;
+    var cardsCounter = 0;
+    var numOfCards = 6;
+    var decisionVal = 80;
+    var pullDeltaX = 0;
+    var deg = 0;
+    var $card, $cardReject, $cardLike;
 
   function pullChange() {
     animating = true;
@@ -25,8 +35,16 @@ $(document).ready(function() {
 
     if (pullDeltaX >= decisionVal) {
       $card.addClass("to-right");
+        
+      /* Card swiped right */
+        cardSwiped('right')
+        
     } else if (pullDeltaX <= -decisionVal) {
       $card.addClass("to-left");
+        
+      /* Card swiped left */
+        cardSwiped('left')
+        
     }
 
     if (Math.abs(pullDeltaX) >= decisionVal) {
@@ -78,6 +96,7 @@ $(document).ready(function() {
   });
     
     $.getJSON( "./card_json.json", function( data ) {
+        cards = data.slice(0);
         var trendingTemplate = [
             '<div class="demo__card">',
                 '<div class="demo__card__top">',
@@ -107,8 +126,8 @@ $(document).ready(function() {
         var items = [];
         var cardContainer = jQuery('.demo__card-cont')
         var compileTemplate = _.template(trendingTemplate);
-
-        $.each(data, function(i, n){
+            
+        $.each(data.reverse(), function(i, n){
             cardContainer.append(compileTemplate({ 
                                                 'place': n.placeCategoryPosted.split(' ')[Math.floor(Math.random()*n.placeCategoryPosted.split(' ').length)].replace('TYPE_', ''),
                                                 'proximity': (n.proximityPosted=='med'||n.proximityPosted=='near')?'wasn\'t':'may have been',
@@ -129,34 +148,146 @@ $(document).ready(function() {
                                                 'category': n.category}));
         });
     });
+    
+    function sendNotifications(isFirst) {
+        console.log('Sending notifications..')
+        var demoUrl = "http://localhost:5000/swipe";
 
+        var formData = JSON.stringify({
+            "is_first": isFirst,
+            "notifications": swipedWindow
+        })
+        console.log('stringified data.')
+        $.ajax ({
+            url: demoUrl,
+            type: "POST",
+            data: formData,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            crossDomain: true,
+            success: function(data) {
+                console.log(data)
+                previousTData = currentTData.slice(0);
+                currentTData = data
+                setUpChart('ul');
+                setUpChart('ur');
+            }
+        });
+
+    }
+
+    /* Card swiped - update counter, send notification @ epoch */
+    function cardSwiped(direction){
+        currentCardIndex++
+        
+        updateCounterView()
+        
+        var currentCard = cards[currentCardIndex]
+        if(direction=='right'){
+            currentCard.action = true
+        }
+        else{
+            currentCard.action = false
+        }
+        swipedWindow.push(currentCard)
+        totalSwiped.push(currentCard)
+        
+        /* Send to api, api converts to embedding, on return create bubble */
+        /* Update graphs using window data set */
+        
+        if(currentCardIndex%10==0 && currentCardIndex>0){
+            sendNotifications(false)
+            swipedWindow = []
+        }
+    }
+    
+    function updateCounterView(){
+        $("#counter").text((currentCardIndex+1))
+    }
+    
+    function setUpChart(position){
+        // Array of labels with app name
+        // Array of two objects - open, dismiss
+        // each object has label.. data related to app names
+        var feature = 'category'
+        var allApps = []
+        openValues = []
+        dismissValues = []
+        
+        $.each((position=='ul'?previousTData:currentTData), function(i, n){
+            allApps.push(n[feature])
+        });
+        var appLabels = new Set(allApps)
+        appLabels = Array.from(appLabels)
+        
+        $.each(appLabels, function(i, l){
+            total = (position=='ul'?previousTData:currentTData).filter(n => n[feature]==l).length
+            accepted = (position=='ul'?previousTData:currentTData).filter(n => n.action==true && n[feature]==l).length
+            openValues.push(Math.round((accepted/total)*100))
+            dismissed = (position=='ul'?previousTData:currentTData).filter(n => n.action==false && n[feature]==l).length
+            dismissValues.push(Math.round((dismissed/total)*100))
+        });
+        
+        var openDataset = {
+          label: "Opened",
+          backgroundColor: "green",
+          borderColor: "black",
+          borderWidth: 1,
+          data: openValues
+        }
+        var dismissDataset = {
+          label: "Dismissed",
+          backgroundColor: "red",
+          borderColor: "black",
+          borderWidth: 1,
+          data: dismissValues
+        }
+        
+        var ctx = document.getElementById(position=='ul'?'ulChart':'urChart');
+        var barChartData = {
+          labels: appLabels,
+          datasets: [
+            openDataset,
+            dismissDataset
+          ]
+        };
+
+        var chartOptions = {
+          responsive: true,
+          legend: {
+            position: "top"
+          },
+          title: {
+            display: true,
+            text: currentCardIndex>=10?(position=='ul'?('Result of swipe '+(currentCardIndex-19)+' to '+(currentCardIndex-9)):('Result of swipe '+(currentCardIndex-9)+' to '+(currentCardIndex+1))):(position=='ul'?'No results yet':'Generic default data')
+          },
+          scales: {
+            yAxes: [{
+              ticks: {
+                beginAtZero: true
+              }
+            }],
+            xAxes: [{
+                ticks: {
+                    autoSkip: false,
+                    maxRotation: 45,
+                    minRotation: 45
+                }
+            }]
+          }
+        }
+        var myChart = new Chart(ctx, {
+        type: "bar",
+        data: barChartData,
+        options: chartOptions
+        });
+    }
+    
+    setUpChart('ul');
+    setUpChart('ur');
+    sendNotifications(true);
+    
+    
 });
 
-function sendNotifications() {
-    console.log('Sending notifications..')
-    var demoUrl = "http://localhost:5000/swipe";
 
-    var formData = JSON.stringify({
-        "is_first": "False",
-        "notifications":
-        [
-            {"activityContextPosted":"still","activityContextRemoved":"still","appPackage":"com.google.android.gm","averageNoisePosted":"low","averageNoiseRemoved":"low","batteryLevelPosted":"low","batteryLevelRemoved":"low","category":"email","chargingPosted":true,"chargingRemoved":true,"contactSignificantContext":"false","contactSignificantOverall":"false","decisionTime":"immediate","headphonesInPosted":false,"headphonesInRemoved":false,"id":1521757243460.0,"lightIntensityPosted":"low","lightIntensityRemoved":"low","musicActivePosted":false,"musicActiveRemoved":false,"notificationRemoved":1521758453780.0,"numberUpdates":"none","ongoing":false,"placeCategoryPosted":"TYPE_BAR TYPE_AQUARIUM TYPE_ACCOUNTING TYPE_OTHER TYPE_ACCOUNTING TYPE_AMUSEMENT_PARK TYPE_AMUSEMENT_PARK TYPE_AQUARIUM","placeCategoryRemoved":"TYPE_BAR TYPE_AQUARIUM TYPE_ACCOUNTING TYPE_OTHER TYPE_ACCOUNTING TYPE_AMUSEMENT_PARK TYPE_AMUSEMENT_PARK TYPE_AQUARIUM","priority":"default","proximityPosted":"med","proximityRemoved":"med","responseTime":"within half hour","ringerModePosted":"vibrate","ringerModeRemoved":"vibrate","seenTime":"within half hour","significant":false,"subject":"unknown","userId":"8a3818ec00d6177ab0f8dfa41729c6d0b3f633267d2e1651d332419219fd1c41","visibility":"private","action":true,"postTime":"2018-03-22 22:20:43.460","removalTime":"2018-03-22 22:40:53.780","timeAppLastUsed":"over a week ago","timeOfDay":"night","dayOfWeek":3, "action":"False"},
-            {"activityContextPosted":"unknown","appPackage":"com.google.android.gm","averageNoisePosted":"low","batteryLevelPosted":"high","category":"email","chargingPosted":false,"contactSignificantContext":"false","contactSignificantOverall":"false","headphonesInPosted":false,"lightIntensityPosted":"low","musicActivePosted":false,"numberUpdates":"none","placeCategoryPosted":"TYPE_ACCOUNTING TYPE_OTHER TYPE_AIRPORT TYPE_ACCOUNTING","priority":"default","proximityPosted":"med","ringerModePosted":"vibrate","subject":"education","visibility":"private","timeAppLastUsed":"within 24 hours","timeOfDay":"early-morning","dayOfWeek":1, "action":"True"}
-	   ]
-    })
-    console.log('stringified data.')
-    $.ajax ({
-        url: demoUrl,
-        type: "POST",
-        data: formData,
-        dataType: "json",
-        contentType: "application/json; charset=utf-8",
-        crossDomain: true,
-        success: function(data) {
-            console.log(data)
-        }
-    });
-
-}
-
-  sendNotifications();

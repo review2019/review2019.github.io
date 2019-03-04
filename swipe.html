@@ -76,32 +76,44 @@
       
     
     <div id="demo-container" class="container interactive-demo parallax" style="position: relative; max-width: 99vw">
-        <div class="demo">
-          <header class="demo__header"></header>
-          <div class="demo__content">
-            <div class="demo__card-cont">
-              
-              <div class="demo__card">
-                <div class="demo__card__top">
-                  <div class="demo__card__img"></div>
-                  <p class="demo__card__name">WhatsApp</p>
-                </div>
-                <div class="demo__card__btm">
-                  <p class="demo__card__we">
-                      You received a message from <strong>WhatsApp</strong> during <strong>Wednesday morning</strong>.
-                      <br>
-                      <br>
-                      The content of the message was <strong>Games</strong>.
-                  </p>
-                </div>
-                <div class="demo__card__choice m--reject"></div>
-                <div class="demo__card__choice m--like"></div>
-                <div class="demo__card__drag"></div>
-              </div>
-                
+        <div class="row" style="min-height:100%;">
+            <div class="col-md-4">
+                <canvas id="ulChart" width="100%" height="70%" style="margin-top: 5%;"></canvas>
             </div>
-            <p class="demo__tip">Swipe notification left or right</p>
-          </div>
+            <div class="col-md-4">
+                <div class="demo">
+                  <header class="demo__header">
+                    <p>You've swiped <strong id="counter">0</strong></p>  
+                  </header>
+                  <div class="demo__content">
+                    <div class="demo__card-cont">
+
+                      <div class="demo__card">
+                        <div class="demo__card__top">
+                          <div class="demo__card__img"></div>
+                          <p class="demo__card__name">WhatsApp</p>
+                        </div>
+                        <div class="demo__card__btm">
+                          <p class="demo__card__we">
+                              You received a message from <strong>WhatsApp</strong> during <strong>Wednesday morning</strong>.
+                              <br>
+                              <br>
+                              The content of the message was <strong>Games</strong>.
+                          </p>
+                        </div>
+                        <div class="demo__card__choice m--reject"></div>
+                        <div class="demo__card__choice m--like"></div>
+                        <div class="demo__card__drag"></div>
+                      </div>
+
+                    </div>
+                    <p class="demo__tip">Swipe notification left or right</p>
+                  </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <canvas id="urChart" width="100%" height="70%" style="margin-top: 5%;"></canvas>
+            </div>
         </div>
     </div>
     
@@ -200,6 +212,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
+    <script src="https://cdn.rawgit.com/Gmousse/dataframe-js/master/dist/dataframe.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script> 
     <script src="js/swipe.js"></script>
       
     <!-- Plugin JavaScript -->
