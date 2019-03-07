@@ -30,12 +30,23 @@
 
     <!-- Custom styles for this template -->
     <link href="css/new-age.min.css" rel="stylesheet">
+    <link href="css/swipe.css" rel="stylesheet">
       
     <!-- Jquery confirm stylesheet -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+      
+    <!-- Bilal's vis -->
+
+    <!--<link href="./visualisations/css/container.css" media="all" type="text/css" rel="stylesheet">-->
+      
+      <!-- -->
+      
     <style>
         ::-webkit-scrollbar { display:none }  
 
+        .highcharts-container {
+            margin:auto;
+        }
         section.cta .overlay {
             position: absolute;
             top: 0;
@@ -193,9 +204,9 @@
         <div id="vis" style="width: 100%; height: 90vh"></div>
         <div style="position: absolute; height: 35%; width: 35%; bottom: 0;
                                              left: 25%; z-index: 0;">
-            <img id="man-up" src="img/looking_up.png" style="height: 100%; width: 100%; display: none;"/>
-            <img id="man-left" src="img/looking_left.png" style="height: 100%; width: 100%; display: block;"/>
-            <img id="man-down" src="img/looking_down.png" style="height: 100%; width: 100%; display: none;"/>
+            <img id="man-up" src="img/looking_up_small.png" style="height: 100%; width: 100%; display: none;"/>
+            <img id="man-left" src="img/looking_left_small.png" style="height: 100%; width: 100%; display: block;"/>
+            <img id="man-down" src="img/looking_down_small.png" style="height: 100%; width: 100%; display: none;"/>
             
         </div>
     </div>
@@ -294,6 +305,114 @@
       </div>
     </div>
       
+    <div id="visualisation-container" class="container interactive-demo parallax" style="position: relative; max-width: 99vw; background-image: none; max-height: 100vh; overflow:hidden;">
+        <div class="row">
+            <div class="col-md-12" style='text-align: center;' >
+                <div id="pccontainer"></div> 
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6" style='text-align: center;' >
+                <div id="radialcontainer">
+
+                    <div style="display:none">
+                        <table id="freq" border="0" cellspacing="0" cellpadding="0">
+                            <tr nowrap bgcolor="#CCCCFF">
+                                <th colspan="9" class="hdr">Table of Frequencies (percent)</th>
+                            </tr>
+                            <tr nowrap bgcolor="#CCCCFF">
+                                <th class="freq">Notifications</th>
+                                <th class="freq">Accepted</th>
+                                <th class="freq">Rejected</th>
+
+                            </tr>
+                            <tr nowrap>
+                                <td class="dir">12:00</td>
+                                <td class="data">18</td>
+                                <td class="data">64</td>
+                            </tr>    
+                            <tr nowrap bgcolor="#DDDDDD">
+                                <td class="dir">13:00</td>
+                                <td class="data">16</td>
+                                <td class="data">60</td> 
+                            </tr>
+                            <tr nowrap>
+                                <td class="dir">14:00</td>
+                                <td class="data">21</td>
+                                <td class="data">62</td>
+                            </tr>
+                            <tr nowrap bgcolor="#DDDDDD">
+                                <td class="dir">15:00</td>
+                                <td class="data">37</td>
+                                <td class="data">74</td>
+                            </tr>
+                            <tr nowrap>
+                                <td class="dir">16:00</td>
+                                <td class="data">34</td>
+                                <td class="data">120</td>
+                            </tr>
+                            <tr nowrap bgcolor="#DDDDDD">
+                                <td class="dir">17:00</td>
+                                <td class="data">34</td>
+                                <td class="data">62</td>
+                            </tr>
+                            <tr nowrap>
+                                <td class="dir">18:00</td>
+                                <td class="data">42</td>
+                                <td class="data">78</td>        
+                            </tr>
+                            <tr nowrap bgcolor="#DDDDDD">
+                                <td class="dir">19:00</td>
+                                <td class="data">41</td>
+                                <td class="data">110</td>
+                            </tr>
+                            <tr nowrap>
+                                <td class="dir">20:00</td>
+                                <td class="data">49</td>
+                                <td class="data">116</td>
+                            </tr>
+                            <tr nowrap bgcolor="#DDDDDD">
+                                <td class="dir">21:00</td>
+                                <td class="data">40</td>
+                                <td class="data">118</td>
+                            </tr>
+                            <tr nowrap>
+                                <td class="dir">22:00</td>
+                                <td class="data">30</td>
+                                <td class="data">110</td>
+                            </tr>
+                            <tr nowrap bgcolor="#DDDDDD">
+                                <td class="dir">23:00</td>
+                                <td class="data">18</td>
+                                <td class="data">81</td>
+                            </tr>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div id="bubblecontainer"></div>
+            </div>
+        </div>
+    </div>
+      
+    <section class="cta" style="background: #7197cf !important;">
+      <div class="cta-content">
+        <div class="container" style="color: white; min-width:80%;">
+            <div class="row">
+                <div class="col-md-4">
+                </div>
+                <div class="col-md-4">
+                </div>
+                <div class="col-md-4">
+                </div>
+            </div>
+        </div>
+      </div>
+      <div class="overlay"></div>
+    </section>
+      
       
     <div id="embeddings-container" class="container interactive-demo parallax" style="position: relative; max-width: 99vw">
         
@@ -320,7 +439,7 @@
         <div id="vis-embeddings" style="width: 100%; height: 90vh"></div>
     </div>
       
-    <section class="cta" style="background: #7197cf !important;">
+    <section class="cta" style="background: #16af97 !important;">
       <div class="cta-content">
         <div class="container" style="color: white; min-width:80%;">
             <div class="row">
@@ -382,9 +501,9 @@
         <div id="empushyVis" style="width: 100%; height: 90vh"></div>
         <div style="position: absolute; height: 35%; width: 35%; bottom: 0;
                                              right: 40%; z-index: 0;">
-            <img id="empushy-man-up" src="img/looking_up.png" style="height: 100%; width: 100%; display: none;"/>
-            <img id="empushy-man-left" src="img/looking_left.png" style="height: 100%; width: 100%; display: block;"/>
-            <img id="empushy-man-down" src="img/looking_down.png" style="height: 100%; width: 100%; display: none;"/>
+            <img id="empushy-man-up" src="img/looking_happy.png" style="height: 100%; width: 100%; display: none;"/>
+            <img id="empushy-man-left" src="img/looking_left_small.png" style="height: 100%; width: 100%; display: block;"/>
+            <img id="empushy-man-down" src="img/looking_down_small.png" style="height: 100%; width: 100%; display: none;"/>
 
         </div>
     </div>
@@ -394,16 +513,10 @@
             <div class="container" style="color: white; min-width:80%;">
                 <div class="row">
                     <div class="col-md-4">
-                        <h4>Reinforcement Learning</h4>
-                        <p>Each bubble above represents a <i>Notification</i> entity and each entity contains a number of features, such as the <i>app</i> from which it was sent, the <i>subject</i> of the content, the <i>time of day</i> it was received and so on. In order to use this information to train and implement intelligent algorithms (such as common Machine Learning algorithms), the <i>Notification</i> entity needs to be converted to machine readable format i.e. a vector of numerical values.</p>
                     </div>
                     <div class="col-md-4">
-                        <h4>Classification</h4>
-                        <p>As an alternative to <i>One-Hot Encoding</i> the features of the <i>Notification</i> entity, an embedding model can be learned which can convert the <i>Notification</i> entity to a vector with fewer dimensions (than a <i>One-Hot Encoded</i> vector) by training it on a simple supervised ML task. For example, the task of predicting the action a user takes on a notification (open/dismiss) given the notification and context features.</p>
                     </div>
                     <div class="col-md-4">
-                        <h4>Result</h4>
-                        <p>The result can be viewed above by expanding the cluster of notifications. The position of each bubble is a notification entity's corresponding embedding value (embeddings are converted to 2-dimensional space for display purposes).</p>
                     </div>
                 </div>
             </div>
@@ -411,11 +524,54 @@
         <div class="overlay"></div>
     </section>
       
+    <div id="swipe-container" class="container interactive-demo parallax" style="position: relative; max-width: 99vw">
+        <div class="row" style="min-height:100%;">
+            <div class="col-md-4">
+                <canvas id="ulChart" width="100%" height="70%" style="margin-top: 5%;"></canvas>
+            </div>
+            <div class="col-md-4">
+                <div class="demo">
+                  <header class="demo__header">
+                    <p>You've swiped <strong id="counter">0</strong></p>  
+                  </header>
+                  <div class="demo__content">
+                    <div class="demo__card-cont">
+
+                      <div class="demo__card">
+                        <div class="demo__card__top">
+                          <div class="demo__card__img"></div>
+                          <p class="demo__card__name">WhatsApp</p>
+                        </div>
+                        <div class="demo__card__btm">
+                          <p class="demo__card__we">
+                              You received a message from <strong>WhatsApp</strong> during <strong>Wednesday morning</strong>.
+                              <br>
+                              <br>
+                              The content of the message was <strong>Games</strong>.
+                          </p>
+                        </div>
+                        <div class="demo__card__choice m--reject"></div>
+                        <div class="demo__card__choice m--like"></div>
+                        <div class="demo__card__drag"></div>
+                      </div>
+
+                    </div>
+                    <p class="demo__tip">Swipe notification left or right</p>
+                  </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <canvas id="urChart" width="100%" height="70%" style="margin-top: 5%;"></canvas>
+            </div>
+        </div>
+    </div>
+      
 
     <div w3-include-html="common/footer.html"></div>
 
     <!-- Bootstrap core JavaScript -->
-    <script src="vendor/jquery/jquery.min.js"></script>
+    <!--<script src="vendor/jquery/jquery.min.js"></script>-->
+    <script src="./visualisations/js/jquery-3.1.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
       
@@ -424,8 +580,20 @@
     <script>
         includeHTML();
     </script>
-        
+
       
+    <script src="./visualisations/js/highcharts.js"></script>
+    <script src="./visualisations/js/highcharts-more.js"></script>
+    <script src="./visualisations/js/pcdata.js"></script>
+    <script src="./visualisations/js/parallel-coordinates.js"></script>
+    <script src="./visualisations/js/data.js"></script>
+    <script src="./visualisations/js/export-data.js"></script>
+    <script src="./visualisations/js/tabs.js"></script>
+
+    <script src="./visualisations/js/radialchart.js"></script>
+    <script src="./visualisations/js/bubblechart.js"></script>
+      
+    <script src="./visualisations/js/parallelcoordinateshc.js"></script>
     <script src="//d3js.org/d3.v5.min.js"></script>
     <script src="./js/demo.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.14.2/dist/tf.min.js"></script>
@@ -433,6 +601,9 @@
     <script src="./js/willpower.js"></script>
     <script src="./js/principles.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.6/dist/jquery.fancybox.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script> 
+    <script src="./js/swipe.js"></script>
     
     
     <!-- Custom scripts for this template -->

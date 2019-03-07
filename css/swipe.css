@@ -3,8 +3,8 @@
   margin: 0;
   padding: 0;
 }
-html, body {
-  font-size: 62.5%;
+#swipe-container {
+  font-size: 40%;
 }
 .demo {
     position: relative;

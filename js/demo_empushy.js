@@ -551,7 +551,7 @@ if(screen.width >= 750){
           .text(function (d) { return d; });
           
         // add image
-        var yearsData = d3.keys(imagesX);
+        /*var yearsData = d3.keys(imagesX);
         var images = svg.selectAll('.smartphone').data(yearsData)
           
         images.enter().append('svg')
@@ -563,7 +563,7 @@ if(screen.width >= 750){
               .attr('class', 'smartphone')
                 .attr('width', '100%')
                 .attr('height', '100%')
-              .attr("xlink:href", function(d) {return imagesRef[d];})
+              .attr("xlink:href", function(d) {return imagesRef[d];})*/
       }
 
         function startEmpushyNotificationSimulation() {

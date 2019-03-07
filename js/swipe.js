@@ -4,6 +4,7 @@ $(document).ready(function() {
     const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
     var cards = [];
     var currentCardIndex = -1;
+    var compareChart = null
     
     var totalSwiped = []
     var swipedWindow = []
@@ -108,13 +109,40 @@ $(document).ready(function() {
                       'You received a message from <strong><%= appPackage %></strong> during <strong><%= dayOfWeek %> <%= timeOfDay %></strong>.',
                       '<br>',
                       '<br>',
-                      'The category of the notification was <strong><%= category %></strong>, the content topic was <strong><%= subject %></strong>, the notification priority level was <strong><%= priority %></strong>, its visibility level was <strong><%= visibility %></strong> and it alerted you <strong><%= numberUpdates %></strong> time(s).',
+                        'Notification Information:',
+                        '<br>',
+                      'Category: <strong><%= category %></strong>',
+                        '<br>',
+                      'Topic: <strong><%= subject %></strong>',
+                        '<br>',
+                        'Priority level: <strong><%= priority %></strong>',
+                        '<br>',
+                      ' Visibility Level <strong><%= visibility %></strong>;',
+                        '<br>',
+                        'Updated: <strong><%= numberUpdates %></strong> number of time(s);',
                       '<br>',
                       '<br>',
-                        'At the time you received it there were <strong><%= averageNoisePosted %></strong> noise levels, the phone\'s battery level was <strong><%= batteryLevelPosted %></strong>, the phone <strong><%= chargingPosted %></strong> plugged in and charging, the ringer mode was set to <strong><%= ringerMode %></strong>, music <strong><%= musicActive %></strong> playing on the phone, you <strong><%= headphonesIn %></strong> have headphones in, the phone screen <strong><%= proximity %></strong> visible and your activity level was <strong><%= activityContextPosted %></strong>.',
+                        'Device Context when notification received:',
+                        '<br>',
+                        'Noise level: <strong><%= averageNoisePosted %></strong>',                        '<br>',
+                        'Battery level: <strong><%= batteryLevelPosted %></strong>',                        
+                        '<br>',
+                        'Plugged in and charging: <strong><%= chargingPosted %></strong>',                        
+                        '<br>',
+                        'Ringer mode: <strong><%= ringerMode %></strong>',                        
+                        '<br>',
+                        'Music playing: <strong><%= musicActive %></strong>',                        
+                        '<br>',
+                        'Headphones plugged in: <strong><%= headphonesIn %></strong>',                        
+                        '<br>',
+                        'Screen visible: <strong><%= proximity %></strong> ',                        
+                        '<br>',
+                        'Activity level: <strong><%= activityContextPosted %></strong>.',
                       '<br>',
                       '<br>',
-                        'The place you were in when receiving the notification was linked with <strong><%= place %></strong>.',
+                        'Your Context when notification received:',
+                      '<br>',
+                        'Place type: <strong><%= place %></strong>.',
                   '</p>',
                 '</div>',
                 '<div class="demo__card__choice m--reject"></div>',
@@ -130,16 +158,16 @@ $(document).ready(function() {
         $.each(data.reverse(), function(i, n){
             cardContainer.append(compileTemplate({ 
                                                 'place': n.placeCategoryPosted.split(' ')[Math.floor(Math.random()*n.placeCategoryPosted.split(' ').length)].replace('TYPE_', ''),
-                                                'proximity': (n.proximityPosted=='med'||n.proximityPosted=='near')?'wasn\'t':'may have been',
+                                                'proximity': (n.proximityPosted=='med'||n.proximityPosted=='near')?'no':'yes',
                                                 'priority': n.priority,
-                                                'numberUpdates': n.numberUpdates=='none'?'one':n.numberUpdates,
+                                                'numberUpdates': n.numberUpdates=='none'?'no':n.numberUpdates,
                                                 'visibility': n.visibility,
                                                 'averageNoisePosted': n.averageNoisePosted,
                                                 'batteryLevelPosted': n.batteryLevelPosted,
-                                                'chargingPosted': n.chargingPosted==true?'was':'wasn\'t',
+                                                'chargingPosted': n.chargingPosted==true?'yes':'no',
                                                 'ringerMode': n.ringerModePosted,
-                                                'musicActive': n.musicActive==true?'was':'wasn\'t',
-                                                'headphonesIn': n.headphonesIn==true?'did':'didn\'t',
+                                                'musicActive': n.musicActive==true?'yes':'no',
+                                                'headphonesIn': n.headphonesIn==true?'yes':'no',
                                                 'activityContextPosted': n.activityContextPosted,
                                                 'appPackage': n.appPackage,
                                                 'timeOfDay': n.timeOfDay,
@@ -151,8 +179,10 @@ $(document).ready(function() {
     
     function sendNotifications(isFirst) {
         console.log('Sending notifications..')
-        var demoUrl = "http://localhost:5000/swipe";
-
+        // var demoUrl = "https://thawing-mesa-63775.herokuapp.com/swipe";
+        // var demoUrl = "http://localhost:5000/swipe";
+        var demoUrl = "http://52.236.157.22/swipe";
+        
         var formData = JSON.stringify({
             "is_first": isFirst,
             "notifications": swipedWindow
@@ -169,8 +199,8 @@ $(document).ready(function() {
                 console.log(data)
                 previousTData = currentTData.slice(0);
                 currentTData = data
-                setUpChart('ul');
-                setUpChart('ur');
+                //setUpChart2('ul');
+                setUpChart2('ur');
             }
         });
 
@@ -195,7 +225,7 @@ $(document).ready(function() {
         /* Send to api, api converts to embedding, on return create bubble */
         /* Update graphs using window data set */
         
-        if(currentCardIndex%10==0 && currentCardIndex>0){
+        if(currentCardIndex%2==0 && currentCardIndex>0){
             sendNotifications(false)
             swipedWindow = []
         }
@@ -283,8 +313,95 @@ $(document).ready(function() {
         });
     }
     
-    setUpChart('ul');
-    setUpChart('ur');
+    function setUpChart2(position){
+        if(compareChart!=null)
+            compareChart.destroy();
+        // Array of labels with app name
+        // Array of two objects - open, dismiss
+        // each object has label.. data related to app names
+        var feature = 'category'
+        var allApps = []
+        openValuesPrev = []
+        dismissValuesPrev = []
+        openValuesCurr = []
+        dismissValuesCurr = []
+        
+        $.each(previousTData, function(i, n){
+            allApps.push(n[feature])
+        });
+        $.each(currentTData, function(i, n){
+            allApps.push(n[feature])
+        });
+        var appLabels = new Set(allApps)
+        appLabels = Array.from(appLabels)
+        
+        $.each(appLabels, function(i, l){
+            total = (previousTData).filter(n => n[feature]==l).length
+            accepted = (previousTData).filter(n => n.action==true && n[feature]==l).length
+            openValuesPrev.push(Math.round((accepted/total)*100))
+            
+            total = (currentTData).filter(n => n[feature]==l).length
+            accepted = (currentTData).filter(n => n.action==true && n[feature]==l).length
+            openValuesCurr.push(Math.round((accepted/total)*100))
+        });
+        
+        var prevDataset = {
+          label: "Previous",
+          backgroundColor: "#7197cf",
+          borderColor: "black",
+          borderWidth: 1,
+          data: openValuesPrev
+        }
+        var currDataset = {
+          label: "Current",
+          backgroundColor: "#59358c",
+          borderColor: "black",
+          borderWidth: 1,
+          data: openValuesCurr
+        }
+        
+        var ctx = document.getElementById(position=='ul'?'ulChart':'urChart');
+        var barChartData = {
+          labels: appLabels,
+          datasets: [
+            prevDataset,
+            currDataset
+          ]
+        };
+
+        var chartOptions = {
+          responsive: true,
+          legend: {
+            position: "top"
+          },
+          title: {
+            display: true,
+            text: 'Effect of Swipes on Training Dataset'
+          },
+          scales: {
+            yAxes: [{
+              ticks: {
+                beginAtZero: true
+              }
+            }],
+            xAxes: [{
+                ticks: {
+                    autoSkip: false,
+                    maxRotation: 45,
+                    minRotation: 45
+                }
+            }]
+          }
+        }
+        compareChart = new Chart(ctx, {
+        type: "bar",
+        data: barChartData,
+        options: chartOptions
+        });
+    }
+    
+    //setUpChart('ul');
+    setUpChart2('ur');
     sendNotifications(true);
     
     

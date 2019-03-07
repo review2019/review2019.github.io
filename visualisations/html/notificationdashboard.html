@@ -1,0 +1,123 @@
+<!DOCTYPE HTML>
+<html>
+
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Notification Dashboard</title>
+		
+		
+
+
+		<script src="../js/jquery-3.1.1.min.js"></script>
+
+		<script src="../js/highcharts.js"></script>
+		<script src="../js/highcharts-more.js"></script>
+		<script src="../js/pcdata.js"></script>
+		<script src="../js/parallel-coordinates.js"></script>
+		<script src="../js/data.js"></script>
+		<script src="../js/export-data.js"></script>
+		<script src="../js/tabs.js"></script>
+		
+		<script src="../js/parallelcoordinateshc.js"></script>
+	  	<link href="../css/container.css" media="all" type="text/css" rel="stylesheet">
+	</head>
+	
+	<div class="tab">
+  	<button class="tablinks" onclick="openTab(event, 'Notifications')">Notifications</button>
+  	<button class="tablinks" onclick="openTab(event, 'Control')">Control</button>
+  	</div>
+  	
+  	<div id="Notifications" class="tabcontent">
+		<div id="pccontainer"></div> 
+		<div id='wrapper' style='text-align: center;'>
+		<div id="radialcontainer">
+	
+			<div style="display:none">
+			    <table id="freq" border="0" cellspacing="0" cellpadding="0">
+			        <tr nowrap bgcolor="#CCCCFF">
+			            <th colspan="9" class="hdr">Table of Frequencies (percent)</th>
+			        </tr>
+			        <tr nowrap bgcolor="#CCCCFF">
+			            <th class="freq">Notifications</th>
+			            <th class="freq">Accepted</th>
+			            <th class="freq">Rejected</th>
+			            
+			        </tr>
+			        <tr nowrap>
+			            <td class="dir">12:00</td>
+			            <td class="data">18</td>
+			            <td class="data">64</td>
+			        </tr>    
+			        <tr nowrap bgcolor="#DDDDDD">
+			            <td class="dir">13:00</td>
+			            <td class="data">16</td>
+			            <td class="data">60</td> 
+			        </tr>
+			        <tr nowrap>
+			            <td class="dir">14:00</td>
+			            <td class="data">21</td>
+			            <td class="data">62</td>
+			        </tr>
+			        <tr nowrap bgcolor="#DDDDDD">
+			            <td class="dir">15:00</td>
+			            <td class="data">37</td>
+			            <td class="data">74</td>
+			        </tr>
+			        <tr nowrap>
+			            <td class="dir">16:00</td>
+			            <td class="data">34</td>
+			            <td class="data">120</td>
+			        </tr>
+			        <tr nowrap bgcolor="#DDDDDD">
+			            <td class="dir">17:00</td>
+			            <td class="data">34</td>
+			            <td class="data">62</td>
+			        </tr>
+			        <tr nowrap>
+			            <td class="dir">18:00</td>
+			            <td class="data">42</td>
+			            <td class="data">78</td>        
+			        </tr>
+			        <tr nowrap bgcolor="#DDDDDD">
+			            <td class="dir">19:00</td>
+			            <td class="data">41</td>
+			            <td class="data">110</td>
+			        </tr>
+			        <tr nowrap>
+			            <td class="dir">20:00</td>
+			            <td class="data">49</td>
+			            <td class="data">116</td>
+			        </tr>
+			        <tr nowrap bgcolor="#DDDDDD">
+			            <td class="dir">21:00</td>
+			            <td class="data">40</td>
+			            <td class="data">118</td>
+			        </tr>
+			        <tr nowrap>
+			            <td class="dir">22:00</td>
+			            <td class="data">30</td>
+			            <td class="data">110</td>
+			        </tr>
+			        <tr nowrap bgcolor="#DDDDDD">
+			            <td class="dir">23:00</td>
+			            <td class="data">18</td>
+			            <td class="data">81</td>
+			        </tr>
+			        
+			    </table>
+			</div>
+		</div>
+
+		<script src="../js/radialchart.js"></script>
+	
+		<div id="bubblecontainer"></div>
+	
+		<script src="../js/bubblechart.js"></script>
+		</div>
+	</div>
+	<div id="Control" class="tabcontent">
+	We will have the control visualisations here...
+	</div>
+	
+</html>
