@@ -280,6 +280,9 @@
                             </li>
                         </ul>
                     <p>* Full results to be presented at <a href="https://www.persuasive2019.org/" target="_blank">Persuasive Technology 2019</a></p>
+                    <div style="text-align: center;" >
+                        <button class="btn btn-primary" onclick="toggleVis();">More Visualisations</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -305,7 +308,7 @@
       </div>
     </div>
       
-    <div id="visualisation-container" class="container interactive-demo parallax" style="position: relative; max-width: 99vw; background-image: none; max-height: 100vh; overflow:hidden;">
+    <div id="visualisation-container" class="container interactive-demo parallax" style="position: relative; max-width: 99vw; background-image: none; max-height: 100vh; overflow:hidden; display: none;">
         <div class="row">
             <div class="col-md-12" style='text-align: center;' >
                 <div id="pccontainer"></div> 
@@ -397,7 +400,7 @@
         </div>
     </div>
       
-    <section class="cta" style="background: #7197cf !important;">
+    <section id="vis-description" class="cta" style="background: #7197cf !important; display: none;">
       <div class="cta-content">
         <div class="container" style="color: white; min-width:80%;">
             <div class="row">
@@ -496,6 +499,10 @@
             </div>
             <ul id='empushyDropdownLegend' class="list-group" style="overflow-y: scroll;"></ul>
         </div>
+        
+        <div style="position:absolute; bottom: 0px; right: 2%; margin:1%;">
+            <button class="btn btn-primary" onclick="toggleSwipe();">Swipe Control</button>
+        </div>
 
 
         <div id="empushyVis" style="width: 100%; height: 90vh"></div>
@@ -508,7 +515,7 @@
         </div>
     </div>
       
-    <section class="cta" style="background: #16af97 !important;">
+    <section id="swipe-desc" class="cta" style="background: #16af97 !important; display: none;">
         <div class="cta-content">
             <div class="container" style="color: white; min-width:80%;">
                 <div class="row">
@@ -524,7 +531,7 @@
         <div class="overlay"></div>
     </section>
       
-    <div id="swipe-container" class="container interactive-demo parallax" style="position: relative; max-width: 99vw">
+    <div id="swipe-container" class="container interactive-demo parallax" style="position: relative; max-width: 99vw; display: none;">
         <div class="row" style="min-height:100%;">
             <div class="col-md-4">
                 <canvas id="ulChart" width="100%" height="70%" style="margin-top: 5%;"></canvas>
@@ -605,6 +612,38 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script> 
     <script src="./js/swipe.js"></script>
     
+  <script>
+      var visToggled = false;
+      var swipeToggled = false;
+      
+      function toggleVis(){
+          visToggled = !visToggled;
+          if(visToggled){
+              $("#visualisation-container").show()
+              $("#vis-description").show()
+              showVis1()
+              showVis2()
+              showVis3()
+          }
+          else{
+              $("#visualisation-container").hide()
+              $("#vis-description").hide()
+          }
+      }
+      
+      function toggleSwipe(){
+          swipeToggled = !swipeToggled;
+          if(swipeToggled){
+              $("#swipe-container").show()
+              $("#swipe-desc").show()
+              initSwipe()
+          }
+          else{
+              $("#swipe-container").hide()
+              $("#swipe-desc").hide()
+          }
+      }
+  </script>
     
     <!-- Custom scripts for this template -->
     <!--<script src="js/new-age.min.js"></script>-->

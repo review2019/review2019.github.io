@@ -1,6 +1,6 @@
 
 
-$(document).ready(function() {
+function initSwipe() {
     const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
     var cards = [];
     var currentCardIndex = -1;
@@ -405,6 +405,6 @@ $(document).ready(function() {
     sendNotifications(true);
     
     
-});
+};
 
 

@@ -1,4 +1,5 @@
-Highcharts.chart('radialcontainer', {
+function showVis3(){
+    Highcharts.chart('radialcontainer', {
     data: {
         table: 'freq',
         startRow: 1,
@@ -58,3 +59,4 @@ Highcharts.chart('radialcontainer', {
         }
     }
 });
+}
