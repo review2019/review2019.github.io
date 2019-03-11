@@ -88,7 +88,6 @@ if(screen.width >= 750){
                  if(n.posted < curEpoch && n.posted >= foundN.posted)
                         foundN = n
         })
-        console.log(foundN)
         return foundN
     }
 

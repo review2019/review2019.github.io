@@ -55,7 +55,7 @@ if(screen.width >= 750){
     *
     */
     function updateEpoch(){
-        currentEpoch = currentEpoch + ((20000))
+        currentEpoch = currentEpoch + ((100000))
         dayTime = epochToDayTime(currentEpoch)
         document.getElementById('time-tracker').innerHTML = dayTime[0] + ' ' + dayTime[1];
     }
@@ -316,11 +316,13 @@ if(screen.width >= 750){
 
             var dropdown = document.getElementById('dropdownLegend'); 
             for(var i = 0; i < nodeColors.domain().length; i++) {
-                var thisLI = document.createElement('li');
-                thisLI.appendChild(document.createTextNode(nodeColors.domain()[i]));
-                thisLI.style.backgroundColor = fillColor(nodeColors.domain()[i]);
-                thisLI.className += " list-group-item";
-                dropdown.appendChild(thisLI); 
+                if(nodeColors.domain()[i]!= null){
+                    var thisLI = document.createElement('li');
+                    thisLI.appendChild(document.createTextNode(nodeColors.domain()[i]));
+                    thisLI.style.backgroundColor = fillColor(nodeColors.domain()[i]);
+                    thisLI.className += " list-group-item";
+                    dropdown.appendChild(thisLI); 
+                }
             } 
         }
 
@@ -329,9 +331,11 @@ if(screen.width >= 750){
             var dropdown = document.getElementById('chooseFeature'); 
             for(var i = 0; i < features.length; i++){
                 var o = document.createElement('option');
-                o.value = features[i]
-                o.innerHTML = features[i] // <a>INNER_TEXT</a>
-                dropdown.appendChild(o); // Append the link to the div
+                if(features[i] !== 'undefined'){
+                    o.value = features[i]
+                    o.innerHTML = features[i] // <a>INNER_TEXT</a>
+                    dropdown.appendChild(o); // Append the link to the div
+                }
             }
             $('#chooseFeature').val(colorFeature);
             $('#chooseFeature').on('change', function(e){
@@ -813,8 +817,8 @@ if(screen.width >= 750){
           .duration(2000)
           .attr('r', function (d) { return d.radius; });
 
-          populateLegend();
-          populateDropdown();
+          populateELegend();
+          populateEDropdown();
         // Set the simulation's nodes to our newly created nodes array.
         // @v4 Once we set the nodes, the simulation will start running automatically!
         simulation.nodes(nodes);
@@ -851,19 +855,21 @@ if(screen.width >= 750){
             tooltip.hideTooltip();
         }
 
-        function populateLegend(){
+        function populateELegend(){
 
             var dropdown = document.getElementById('eDropdownLegend'); 
             for(var i = 0; i < nodeColors.domain().length; i++) {
-                var thisLI = document.createElement('li');
-                thisLI.appendChild(document.createTextNode(nodeColors.domain()[i]));
-                thisLI.style.backgroundColor = fillColor(nodeColors.domain()[i]);
-                thisLI.className += " list-group-item";
-                dropdown.appendChild(thisLI); 
+                if(nodeColors.domain()[i]!= null){
+                    var thisLI = document.createElement('li');
+                    thisLI.appendChild(document.createTextNode(nodeColors.domain()[i]));
+                    thisLI.style.backgroundColor = fillColor(nodeColors.domain()[i]);
+                    thisLI.className += " list-group-item";
+                    dropdown.appendChild(thisLI); 
+                }
             } 
         }
 
-        function populateDropdown(){
+        function populateEDropdown(){
 
             var dropdown = document.getElementById('eChooseFeature'); 
             for(var i = 0; i < eFeatures.length; i++){
@@ -1013,8 +1019,9 @@ if(screen.width >= 750){
       return chart;
     }
 
-    d3.json('./synthetic_for_web.json')
+    d3.json('./synthetic_for_web_with_embeddings_2.json')
         .then(function(data) {
+        data = data.slice(200,600)
         data.sort(function(a, b) { 
             return a.time - b.time;
         })    
@@ -1036,8 +1043,9 @@ if(screen.width >= 750){
         setUpChart(gData)
     });
     
-    d3.json('./synthetic_for_web_with_embeddings.json')
+    d3.json('./synthetic_for_web_with_embeddings_2.json')
         .then(function(data) {
+        data = data.slice(0,1000)
         data.sort(function(a, b) { 
             return a.time - b.time;
         })    
@@ -1052,6 +1060,8 @@ if(screen.width >= 750){
         
         // Begin by adding each notification to the unsent location
         data.forEach(function(n) { 
+            //if(n.appPackage == null)
+            //console.log(n.appPackage)
             var dayTime = epochToDayTime(n.posted)
             n.location = 'Unsent';
             n.day = dayTime[0];
@@ -1163,7 +1173,6 @@ if(screen.width >= 750){
     }
     
     function eToggleLegend(){
-        console.log('clicked')
         eLegendToggle = !eLegendToggle
         if(eLegendToggle){
             document.getElementById('eLegend').style.display = 'block'
