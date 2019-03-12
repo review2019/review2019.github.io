@@ -181,7 +181,7 @@ function initSwipe() {
         console.log('Sending notifications..')
         // var demoUrl = "https://thawing-mesa-63775.herokuapp.com/swipe";
         // var demoUrl = "http://localhost:5000/swipe";
-        var demoUrl = "http://52.236.157.22/swipe";
+        var demoUrl = "http://localhost:5000/swipe";
         
         var formData = JSON.stringify({
             "is_first": isFirst,
@@ -227,8 +227,30 @@ function initSwipe() {
         
         if(currentCardIndex%2==0 && currentCardIndex>0){
             sendNotifications(false)
+            updateEmbeddings()
             swipedWindow = []
         }
+    }
+    
+    function updateEmbeddings() {
+        console.log('Sending request to update..')
+        // var demoUrl = "https://thawing-mesa-63775.herokuapp.com/swipe";
+        // var demoUrl = "http://localhost:5000/swipe";
+        var eUrl = "http://localhost:5000/embeddings";
+        
+        console.log('stringified data.')
+        $.ajax ({
+            url: eUrl,
+            type: "GET",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            crossDomain: true,
+            success: function(data) {
+                console.log(data)
+                $("#embeddingImg").attr("src","http://localhost:5000/static/embeddings.png?"+Date.now());
+            }
+        });
+
     }
     
     function updateCounterView(){
