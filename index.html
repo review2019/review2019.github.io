@@ -17,23 +17,23 @@
     <script src="js/include-setup.js"></script>
 
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
 
     <!-- Custom fonts for this template -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="fonts/all.css">
     <link rel="stylesheet" href="vendor/simple-line-icons/css/simple-line-icons.css">
-    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
+    <link href="fonts/lato.css" rel="stylesheet">
+    <link href="fonts/catamaran.css" rel="stylesheet">
+    <link href="fonts/Muli.css" rel="stylesheet">
       
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.6/dist/jquery.fancybox.min.css" />
+    <link rel="stylesheet" href="css/jquery.fancybox.min.css" />
 
     <!-- Custom styles for this template -->
     <link href="css/new-age.min.css" rel="stylesheet">
-    <link href="css/swipe.css" rel="stylesheet">
+    <!--<link href="css/swipe.css" rel="stylesheet">-->
       
     <!-- Jquery confirm stylesheet -->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+	<link rel="stylesheet" href="css//jquery-confirm.min.css">
       
     <!-- Bilal's vis -->
 
@@ -501,9 +501,9 @@
             <ul id='empushyDropdownLegend' class="list-group" style="overflow-y: scroll;"></ul>
         </div>
         
-        <div style="position:absolute; bottom: 0px; right: 2%; margin:1%;">
+        <!--<div style="position:absolute; bottom: 0px; right: 2%; margin:1%;">
             <button class="btn btn-primary" onclick="toggleSwipe();">Swipe Control</button>
-        </div>
+        </div>-->
 
 
         <div id="empushyVis" style="width: 100%; height: 90vh"></div>
@@ -516,7 +516,7 @@
         </div>
     </div>
       
-    <div id="swipe-container" class="container interactive-demo parallax" style="position: relative; max-width: 99vw; display: none;">
+    <!--<div id="swipe-container" class="container interactive-demo parallax" style="position: relative; max-width: 99vw; display: none;">
         <div class="row" style="min-height:100%;">
             <div class="col-md-4" style="margin:auto;">
                 <div style="text-align: center">
@@ -562,7 +562,7 @@
         <div style="position:absolute; bottom: 0px; right: 2%; margin:1%;">
             <button id="toggleSwipeButton" class="btn btn-primary" onclick="toggleSwipe();">Swipe Control</button>
         </div>
-    </div>
+    </div>-->
       
 
     <div w3-include-html="common/footer.html"></div>
@@ -570,7 +570,7 @@
     <!-- Bootstrap core JavaScript -->
     <!--<script src="vendor/jquery/jquery.min.js"></script>-->
     <script src="./visualisations/js/jquery-3.1.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+    <script src="./js/popper.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
       
     <!-- Plugin JavaScript -->
@@ -592,20 +592,20 @@
     <script src="./visualisations/js/bubblechart.js"></script>
       
     <script src="./visualisations/js/parallelcoordinateshc.js"></script>
-    <script src="//d3js.org/d3.v5.min.js"></script>
+    <script src="./js/d3.v5.min.js"></script>
     <script src="./js/demo.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.14.2/dist/tf.min.js"></script>
+    <script src="./js/tf.min.js"></script>
     <script src="./js/demo_empushy.js"></script>
     <script src="./js/willpower.js"></script>
     <script src="./js/principles.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.6/dist/jquery.fancybox.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script> 
-    <script src="./js/swipe.js"></script>
+    <script src="./js/jquery.fancybox.min.js"></script>
+    <script src="./js/underscore-min.js"></script>
+    <script src="./js/Chart.min.js"></script> 
+    <!--<script src="./js/swipe.js"></script>-->
     
   <script>
       var visToggled = false;
-      var swipeToggled = false;
+      /*var swipeToggled = false;*/
       
       function toggleVis(){
           visToggled = !visToggled;
@@ -622,7 +622,7 @@
           }
       }
       
-      function toggleSwipe(){
+      /*function toggleSwipe(){
           swipeToggled = !swipeToggled;
           if(swipeToggled){
               $("#swipe-container").show()
@@ -635,7 +635,7 @@
               $("#empushy-demo-container").show()
               $("#toggleSwipeButton").text('Swipe Control')
           }
-      }
+      }*/
   </script>
     
     <!-- Custom scripts for this template -->
