@@ -516,6 +516,80 @@
         </div>
     </div>
       
+    <section class="cta" style="background: #7197cf !important;">
+      <div class="cta-content">
+        <div class="container" style="color: white; min-width:80%;">
+            <div class="row">
+                <div class="col-md-12" style="padding-bottom:20px;padding-top:20px;">
+                    <h4> Reinforcement Learning</h4>
+                    As a potential solution for notification management, reinforcement learning methods are tested on existing in-the-wild and subsequent synthetic data sets. <br><br>
+                    There are many features which are known to have an association with the user's action on a notification, however the number of features selected also expands the state-space and impacts training/prediction times. For the purposes of this preliminary study, only the following features (which are known at delivery time) were selected:                     
+                    <br><i>{ category, app, time-of-day, day-of-week }</i><br>
+                    
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <h4>Q-Table</h4>
+                    A Q-Table is implemented to learn to mediate notification delivery on behalf of the user to aleviate information overload.
+                    <br>
+                    <br>
+                    <strong>Example Result:</strong>
+                    <br>
+                    <ul>
+                        <li>Trained on 3,866 notifications, tested on 429 using 10-Fold Cross-Validation</li>
+                        <li>Accuracy: 78%</li>
+                        <li>Precision: 78%</li>
+                        <li>Recall: 81%</li>
+                        <li>F1: 80%</li>
+                        <li>Time to Train: 70s</li>
+                        <li>Time to Test: 39s</li>
+                    
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h4>Deep Q-Network</h4>
+                    A Deep Q-Network (DQN) is implemented to learn to mediate notification delivery on behalf of the user to aleviate information overload.
+                    <br>
+                    <br>
+                    <strong>Example Result:</strong>
+                    <br>
+                    <ul>
+                        <li>Trained on 3,866 notifications, tested on 429 using 10-Fold Cross-Validation</li>
+                        <li>Accuracy: 80%</li>
+                        <li>Precision: 79%</li>
+                        <li>Recall: 87%</li>
+                        <li>F1: 83%</li>
+                        <li>Time to Train: 257s</li>
+                        <li>Time to Test: 19s</li>
+                    
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                     <h4>DQN Synthetic</h4>
+                    A Deep Q-Network (DQN) is implemented, but this time trained and evaluated with <i>Synthetic</i> data.
+                    <br>
+                    <br>
+                    <br>
+                    <strong>Example Result:</strong>
+                    <br>
+                    <ul>
+                        <li>Trained on 4,500 notifications, tested on 500 using 10-Fold Cross-Validation</li>
+                        <li>Accuracy: 79%</li>
+                        <li>Precision: 74%</li>
+                        <li>Recall: 90%</li>
+                        <li>F1: 81%</li>
+                        <li>Time to Train: 70s</li>
+                        <li>Time to Test: 39s</li>
+                    
+                    </ul>
+                </div>
+            </div>
+        </div>
+      </div>
+      <div class="overlay"></div>
+    </section>
+      
     <!--<div id="swipe-container" class="container interactive-demo parallax" style="position: relative; max-width: 99vw; display: none;">
         <div class="row" style="min-height:100%;">
             <div class="col-md-4" style="margin:auto;">
