@@ -1112,8 +1112,8 @@ if(screen.width >= 750){
          * Below is the initialization code as well as some helper functions
          * to create a new bubble chart instance, load the data, and display it.
          */
-        nodeColors = d3.scaleOrdinal(d3.schemeSet1)
-                .domain([...new Set(data.map(d => d[colorFeature]))]);
+        nodeColors = d3.scaleOrdinal()
+                .domain([...new Set(data.map(d => d[colorFeature]))]).range(d3.schemeCategory10 );
 
         var myBubbleChart = bubbleChart(nodeColors);
         myBubbleChart('#vis', data)
@@ -1150,8 +1150,8 @@ if(screen.width >= 750){
          * Below is the initialization code as well as some helper functions
          * to create a new bubble chart instance, load the data, and display it.
          */
-        var nodeColors = d3.scaleOrdinal(d3.schemeSet1)
-                .domain([...new Set(data.map(d => d[eColorFeature]))]);
+        var nodeColors = d3.scaleOrdinal()
+                .domain([...new Set(data.map(d => d[eColorFeature]))]).range(d3.schemeCategory10);
 
         var myEmbeddingChart = bubbleChartEmbeddings(nodeColors);
         myEmbeddingChart('#vis-embeddings', data)

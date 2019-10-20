@@ -715,8 +715,8 @@ if(screen.width >= 750){
          * Below is the initialization code as well as some helper functions
          * to create a new bubble chart instance, load the data, and display it.
          */
-        nodeColors = d3.scaleOrdinal(d3.schemeSet1)
-                .domain([...new Set(data.map(d => d[empushyColorFeature]))]);
+        nodeColors = d3.scaleOrdinal()
+                .domain([...new Set(data.map(d => d[empushyColorFeature]))]).range(d3.schemeSet3);
 
         var empushyBubbleChart = bubbleChart(nodeColors);
         empushyBubbleChart('#empushyVis', data)
