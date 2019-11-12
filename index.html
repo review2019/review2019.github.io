@@ -131,13 +131,35 @@
           background-image: url('./img/bg1.png');
 
           /* Full height */
-          height: 90%; 
+          height: 75%; 
 
           /* Create the parallax scrolling effect */
           background-attachment: fixed;
           background-position: center;
           background-repeat: no-repeat;
           background-size: cover;
+        }
+        
+        .progress-bar-custom {
+            width: calc(100% - 6px) !important;
+            height: 5px !important;
+            padding-left: 1% !important;
+            border-radius: 3px !important;
+        }
+
+        .progress-bar-fill {
+            display: block;
+            height: 5px;
+            background: #659cef !important;
+            border-radius: 3px;
+            /*transition: width 250ms ease-in-out;*/
+            transition: width 30s ease-in-out;
+        }
+        .reset-progress-bar {
+            display: block;
+            height: 5px;
+            background: #659cef !important;
+            border-radius: 3px;
         }
         
   </style>
@@ -621,37 +643,204 @@
                             <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" placeholder="Enter your website url here">
                         </div>-->
                           
-                            <div class="row">
-                                <div class="input-group mb-3">
-                                    <div class='col-md-4'>
-                                        <select id="inputState" class="form-control">
-                                            <option selected>clickbaiting</option>
-                                            <option>non-clickbaiting</option>
-                                        </select>
-                                    </div> 
-                                    <div class='col-md-4'>
-                                        <select id="inputState" class="form-control">
-                                            <option selected>crime</option>
-                                            <option>entertainment</option>
-                                        </select>
-                                    </div> 
-                                    <div class='col-md-4'>
-                                        <select id="inputState" class="form-control">
-                                            <option selected>summary emojis</option>
-                                            <option>keyword emojis</option>
-                                        </select>
-                                    </div> 
-                                </div>
+                        <div class="row">
+                            <div class="input-group mb-3">
+                                <div class='col-md-4'>
+                                    <select id="selectCB" class="form-control">
+                                        <option selected>clickbaiting</option>
+                                        <option>non-clickbaiting</option>
+                                    </select>
+                                </div> 
+                                <div class='col-md-4'>
+                                    <select id="selectTopic" class="form-control">
+                                        <option>arts</option>
+                                        <option>arts &amp; culture</option>
+                                        <option>business</option>
+                                        <option>college</option>
+                                        <option>comedy</option>
+                                        <option>crime</option>
+                                        <option>divorce</option>
+                                        <option>education</option>
+                                        <option>entertainment</option>
+                                        <option>environment</option>
+                                        <option>food &amp; drink</option>
+                                        <option>good news</option>
+                                        <option>green</option>
+                                        <option>healthy living</option>
+                                        <option>impact</option>
+                                        <option>media</option>
+                                        <option>money</option>
+                                        <option>parents</option>
+                                        <option>politics</option>
+                                        <option>science</option>
+                                        <option>sports</option>
+                                        <option>style</option>
+                                        <option>taste</option>
+                                        <option>tech</option>
+                                        <option>travel</option>
+                                        <option>weddings</option>
+                                        <option>wellness</option>
+                                        <option>world news</option>
+                                        <option>worldpost</option>
+                                    </select>
+                                </div> 
+                                <div class='col-md-4'>
+                                    <select id="selectEmoji" class="form-control">
+                                        <option selected>summary emojis</option>
+                                        <option>keyword emojis</option>
+                                    </select>
+                                </div> 
                             </div>
-                        <button type="button" class="btn btn-primary btn-sm btn-block" style='background: black; color: fdcc52; border-color: transparent'>Generate</button>
+                        </div>
+                        <div class="row" style='padding-left: 1%; padding-right: 1%; visibility: hidden;'>
+                            <div class="progress-bar-custom">
+                                <span id='progressBarCompose' class="progress-bar-fill" style="width: 5%"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <button id='composeButton' type="button" class="btn btn-primary btn-sm btn-block" style='background: black; color: fdcc52; border-color: transparent' onclick="compose()">Generate</button>
+                        </div>
+                    </div>
+                    <br>
+                    <div class='row' style="margin:auto; padding: 5%; overflow-y: scroll;">
+                        <div id='generatedNotifications' class='col-md-12' style='display: contents;'>
+                        </div>
                     </div>
                 </div>
                 <div class='col-md-3' style="color: black; padding-left: 2%;text-align: right;">
-                    <p><i>EmPushy</i> can generate <strong>tailored</strong> notifications &#128276; for your website which are both <strong>high-performing</strong> &#128178; and <strong>empathetic</strong> &#128156; toward your subscribers.<br><br><i>You can concentrate on creating great content &#127916;</i> while EmPushy ensures it is delivered to subscribers in the most <strong>friendly</strong> &#128522; and <strong>effective</strong> &#128175; way possible!</p>
+                    <div class="card" style=" background-color: transparent; width:25vw; float: right; padding: 10px; margin-bottom: 5%; border: none;">
+                        <div class="row" style="margin-top: auto;">
+                            <div class="col-md-3">
+                                <img src="img/adapt_logo.png" style="height: 100%; width: 100%;"/>
+                            </div>
+                            <div class="col-md-9">
+                                <img src="img/empushy_logo.png" style="height: 100%; width: 100%;"/>
+                            </div>
+                        </div>
+                    </div>
+                    <p>Lacking creativity 🎨 or inspiration 💡?<br><br><i>EmPushy</i> can analyse <strong>current trends</strong> 📈 in the media and generate <strong>empathetic</strong> &#128156; notifications &#128276; based on <strong>topics relevant</strong> to you and your subscribers.<br><br> Let us create the message ✍ to send, <i>then you can concentrate on creating that content</i> &#127916; !</p>
                 </div>
             </div>
             
         </div>
+        
+    </section>
+      
+    <section class="cta" style="background: #7197cf !important;">
+      <div class="cta-content">
+        <div class="container" style="color: white; min-width:80%;">
+            <div class="row">
+                <div class="col-md-12" style="padding-bottom:20px;padding-top:20px;">
+                    <h4>Conditional Text Generation</h4>
+                    <p>As a potential solution for notification management, reinforcement learning methods are tested on existing in-the-wild and subsequent synthetic data sets.</p>                     
+                    
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <h4>GPT2</h4>
+                    The model generating the text in the demo above is a fine-tuned version of GPT2. 
+                </div>
+                <div class="col-md-4">
+                    <h4>Clickbaiting &amp; Topic</h4>
+                    <p>The fine-tuned GPT2 model can also be conditioned to generate certain types of natural language given a prompt. This is powerful as it allows for greater control over what is generated allowing for specific use cases e.g. a sports app can generate sport related notification content. In the demo above, you may select from a range of <i>topics</i> to generate notification text. <br><br>We are also interested in features of text which are enticing. The clickbaiting feature is indicative of persuasive language, thus we can condition the model on this to generate persuasive texts. The options are <i>clickbaiting</i>, which should be enticing, and <i>non-clickbaiting</i>, which should be more neutral.</p>
+                </div>
+                <div class="col-md-4">
+                     <h4>Emojis</h4>
+                    <p>Emojis have been shown to vastly improve CTRs of notifications. They not only catch the eye but also allow the reader to quickly grasp nuances of the message quicker - such as the sentiment or the topic. For the demo above, we use BERT to represent the text as context vectors and use the similarity between vectors to select appropriate emojis. You can select either: </p>
+                    <ul>
+                        <li><strong>Summary</strong><br>The whole text generated by GPT2 is converted to a single context vector and summary emojis are generated which best represent the text as a whole. The emojis are appended at the end of the text</li>
+                        <li><strong>Keyword</strong><br>Keywords are extracted from the text generated by GPT2 and each is converted to a context vector. The best representative emoji is then selected for each keyword and added directly after the keyword within the text</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+      </div>
+      <div class="overlay"></div>
+    </section>
+      
+      
+      <section class="container interactive-demo parallax" style="max-width: 99vw; padding-top:2%;">
+        <div class="container-fluid" style="color: white; min-width:80%;">
+            <div class='row'>
+                <div class='col-md-9' style='text-align: center;'>
+                    <div style="width: 65%; margin: auto;">
+                        <!--<div class="input-group mb-3">  
+                            <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" placeholder="Enter your website url here">
+                        </div>-->
+                          
+                        <div class="row">
+                            <div class="input-group mb-3">
+                                <div class='col-md-8'>
+                                    <input type="text" class="form-control" id="webPushUrl" placeholder="Enter website url e.g. https://empushy.com">
+                                </div> 
+                                <div class='col-md-4'>
+                                    <select id="selectEmoji2" class="form-control">
+                                        <option selected>summary emojis</option>
+                                        <option>keyword emojis</option>
+                                    </select>
+                                </div> 
+                            </div>
+                        </div>
+                        <div class="row" style='padding-left: 1%; padding-right: 1%; visibility: hidden;'>
+                            <div class="progress-bar-custom">
+                                <span id='progressBarWebPush' class="progress-bar-fill" style="width: 5%"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <button id='webpushButton2' type="button" class="btn btn-primary btn-sm btn-block" style='background: black; color: fdcc52; border-color: transparent' onclick="webPush()">Inspire Me</button>
+                        </div>
+                    </div>
+                    <br>
+                    <div class='row' style="margin:auto; padding: 5%; overflow-y: scroll;">
+                        <div id='generatedNotificationsWebPush' class='col-md-12' style='display: contents;'>
+                        </div>
+                    </div>
+                </div>
+                <div class='col-md-3' style="color: black; padding-left: 2%;text-align: right;">
+                    <div class="card" style=" background-color: transparent; width:25vw; float: right; padding: 10px; margin-bottom: 5%; border: none;">
+                        <div class="row" style="margin-top: auto;">
+                            <div class="col-md-3">
+                                <img src="img/adapt_logo.png" style="height: 100%; width: 100%;"/>
+                            </div>
+                            <div class="col-md-9">
+                                <img src="img/empushy_logo.png" style="height: 100%; width: 100%;"/>
+                            </div>
+                        </div>
+                    </div>
+                    <p><i>EmPushy</i> can generate <strong>tailored</strong> notifications &#128276; for your website which are both <strong>high-performing</strong> &#128178; and <strong>empathetic</strong> &#128156; toward your subscribers.<br><br><i>You can concentrate on creating great content &#127916;</i> while EmPushy ensures it is delivered to subscribers in the most <strong>friendly</strong> &#128522; and <strong>effective</strong> &#128175; way possible!</p>
+                    
+                </div>
+            </div>
+            
+        </div>
+    </section>
+      
+    <section class="cta" style="background: #7197cf !important;">
+      <div class="cta-content">
+        <div class="container" style="color: white; min-width:80%;">
+            <div class="row">
+                <div class="col-md-12" style="padding-bottom:20px;padding-top:20px;">
+                    <h4>Web Notification Creation</h4>
+                    <p>Autonomous creation of web push-notifications to aid app creators and digital marketers push the right message at  the right time to the right audience.</p>                     
+                    
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <h4>GPT2</h4>
+                    The model generating the text in the demo above is a fine-tuned version of GPT2. 
+                </div>
+                <div class="col-md-4">
+                    <h4>Clickbaiting &amp; Topic</h4>
+                </div>
+                <div class="col-md-4">
+                     <h4>Emojis</h4>
+                </div>
+            </div>
+        </div>
+      </div>
+      <div class="overlay"></div>
     </section>
       
       <!--
@@ -716,7 +905,9 @@
     <!--<script src="vendor/jquery/jquery.min.js"></script>-->
     <script src="./visualisations/js/jquery-3.1.1.min.js"></script>
     <script src="./js/popper.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!--    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>-->
+      
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/d6642961e7.js" crossorigin="anonymous"></script>
       
     <!-- Plugin JavaScript -->
@@ -747,9 +938,42 @@
     <script src="./js/jquery.fancybox.min.js"></script>
     <script src="./js/underscore-min.js"></script>
     <script src="./js/Chart.min.js"></script> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrender/1.0.4/jsrender.min.js"></script>
     <!--<script src="./js/swipe.js"></script>-->
     
   <script>
+      var composeTemplate = '<div class="toast" style="margin-right: 5px; text-align:left; color: black;background-color: floralwhite;"'+
+                                'role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false">'+
+                              '<div class="toast-header" style="background-color: palegoldenrod;">'+
+                                '<span style="margin-right:5px">&#128276;</span>'+
+                                '<strong class="mr-auto">EmPushy - {{:category}}</strong>'+
+                                '<small>11 mins ago</small>'+
+                                '<button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">'+
+                                  '<span aria-hidden="true">&times;</span>'+
+                                '</button>'+
+                              '</div>'+
+                              '<div class="toast-body" style="">'+
+                                '{{:text}}'+
+                              '</div>'+
+                            '</div>'
+      var webPushTemplate = '<div class="toast" style="margin-right: 5px; text-align:left; color: black;background-color: floralwhite;"'+
+                                'role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false">'+
+                              '<div class="toast-header" style="background-color: palegoldenrod;">'+
+                                '<span style="margin-right:5px">&#128276;</span>'+
+                                '<strong class="mr-auto">EmPushy</strong>'+
+                                '<small>11 mins ago</small>'+
+                                '<button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">'+
+                                  '<span aria-hidden="true">&times;</span>'+
+                                '</button>'+
+                              '</div>'+
+                              '<div class="toast-body" style="">'+
+                                '{{:text}}'+'<br>Find out more: <a href="{{:url}}" target="_blank" style="color:cadetblue">{{:url}}<a/>'+
+                              '</div>'+
+                            '</div>'
+      $.templates("composeTemplate", composeTemplate);  
+      $.templates("webPushTemplate", webPushTemplate);    
+      
+      
       var visToggled = false;
       /*var swipeToggled = false;*/
       
@@ -768,17 +992,115 @@
           }
       }
       
-      function compose(){
+      function toggleProgress(){
+        $('#progressBarCompose').css('visibility', 'visible')
+        $('#composeButton').attr("disabled", true);
+        $("#progressBarCompose.progress-bar-fill").css({"width":"100%","transition":"40s"});
+      }
+
+        function compose(){
+            
+            
+            
+            toggleProgress()
+            var demoUrl = "https://empushy.azurewebsites.net/v1/nlp/web/compose";
+
+            
+            var selectedCB = $('#selectCB').children("option:selected").val();
+            var selectedTopic = $('#selectTopic').children("option:selected").val();
+            var selectedEmojis = $('#selectEmoji').children("option:selected").val();
+            
+            var prompt = ''
+            var emojiKey = false
+            if(selectedCB=='clickbaiting')
+                prompt = '[CB_'+selectedTopic+'] '
+            else
+                prompt = '[NCB_'+selectedTopic+'] '
+            
+            if(selectedEmojis=='keyword emojis')
+                emojiKey = true
+            
+            
+            
+            var formData = JSON.stringify({
+                "text": prompt,
+                "emoji": emojiKey?'key':'sen'             
+            })
+            
+            $.ajax ({
+                url: demoUrl,
+                type: "POST",
+                data: formData,
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                crossDomain: true,
+                success: function(data) {
+                    try{
+                        var prediction = data['compositions']  
+                        notifications = []
+                        for(val of prediction){
+                            var body = val.text+' '
+                            if(!emojiKey)
+                                body = body + val.emojis[0]
+                            else{
+                                for(pair of val.emojis){
+                                    rand1 = (Math.floor(Math.random() * 2) + 1 )-1
+                                    body = body.replace(pair.keyword, pair.keyword+' '+pair.emojis.split(' ')[rand1])
+                                }
+                            }
+                            body = body.replace('[CB', '').replace('[NCB', '')
+                            notifications.push({text: body, category: selectedTopic})
+                        }
+                        var html = $.templates.composeTemplate(notifications);
+                        $("#generatedNotifications").append(html)
+                        $('.toast').toast('show')
+
+                        $(".progress-bar-fill").css({"width":"0%","transition":"none"});
+                        $('#progressBarCompose').css('visibility', 'invisible')
+                        $('#composeButton').attr("disabled", false);
+                    }
+                    catch(err){}
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown){
+                    alert('Error generating notifications, try again.')
+                    $(".progress-bar-fill").css({"width":"0%","transition":"none"});
+                    $('#progressBarCompose').css('visibility', 'invisible')
+                    $('#composeButton').attr("disabled", false);
+                }
+                
+            });
+        }
+      
+      function toggleProgressWebPush(){
+        $('#progressBarWebPush').css('visibility', 'visible')
+        $('#webpushButton').attr("disabled", true);
+        $("#progressBarWebPush.progress-bar-fill").css({"width":"100%","transition":"15s"});
+      }
+  
+      function webPush(){
           
-        var demoUrl = "https://empushy.azurewebsites.net/v1/nlp/web/compose";
-          
+        toggleProgressWebPush()
+        var webPushDemoURL = "https://empushy.azurewebsites.net/v1/nlp/webpush";
+
+
+        var url = $('#webPushUrl').val();
+        var selectedEmojisWebPush = $('#selectEmoji2').children("option:selected").val();
+
+        var emojiKeyWebPush = false
+        
+        if(selectedEmojisWebPush=='keyword emojis')
+            emojiKeyWebPush = true
+
+
+
         var formData = JSON.stringify({
-            "text": "[NCB_crime] ",
-            "emojis": "key"               
+            "url": url,
+            "emoji": emojiKeyWebPush?'key':'sen'             
         })
 
+        console.log(formData)
         $.ajax ({
-            url: demoUrl,
+            url: webPushDemoURL,
             type: "POST",
             data: formData,
             dataType: "json",
@@ -786,48 +1108,46 @@
             crossDomain: true,
             success: function(data) {
                 try{
-                    var prediction = data['compositions']
+                    var prediction = data['results']  
                     console.log(prediction)
+                    var notifications = []
+                    for(val of prediction){
+                        var body = val.summary
+                        body = body.substring(0, 120)
+                        body = body+'... '
+                        if(!emojiKeyWebPush)
+                            body = body + val.emojis[0]
+                        else{
+                            for(pair of val.emojis){
+                                rand1 = (Math.floor(Math.random() * 3) + 1 )-1
+                                body = body.replace(pair.keyword, pair.keyword+' '+pair.emojis.split(' ')[rand1])
+                            }
+                        }
+                        notifications.push({text: body, url: url})
+                    }
+                    
+                    console.log(notifications)
+                    var html = $.templates.webPushTemplate(notifications);
+                    $("#generatedNotificationsWebPush").append(html)
+                    $('.toast').toast('show')
+
+                    $("#progressBarWebPush.progress-bar-fill").css({"width":"0%","transition":"none"});
+                    $('#progressBarWebPush').css('visibility', 'invisible')
+                    $('#webPushButton').attr("disabled", false);
                 }
                 catch(err){}
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown){
+                alert('Error generating notifications, try again.')
+                $("#progressBarWebPush.progress-bar-fill").css({"width":"0%","transition":"none"});
+                $('#progressBarWebPush').css('visibility', 'invisible')
+                $('#webPushButton').attr("disabled", false);
             }
+
         });
       }
       
-      /*function toggleSwipe(){
-          swipeToggled = !swipeToggled;
-          if(swipeToggled){
-              $("#swipe-container").show()
-              $("#empushy-demo-container").hide()
-              $("#toggleSwipeButton").text('EmPushy Demo')
-              initSwipe()
-          }
-          else{
-              $("#swipe-container").hide()
-              $("#empushy-demo-container").show()
-              $("#toggleSwipeButton").text('Swipe Control')
-          }
-      }*/
-  </script>
-    
-    <!-- Custom scripts for this template -->
-    <!--<script src="js/new-age.min.js"></script>-->
-      
-      <!--  Clusters: 
-        
-        Unsent notifications
-        Distracting notifications (User)
-        Accepted  notifications (Metric to show e.g. persuasive scale)
-        Dismissed notifications (Metric types of notifications that are being dismissed.)
-
-            Sliders:
-        For time
-
-            Activity:
-        -based on American Survey Data-
-
-
-        -->
+      </script>
 
   </body>
 
