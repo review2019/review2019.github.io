@@ -65,7 +65,7 @@
             border-radius: 5px;
             border: 2px solid #000;
             background: #fff;
-            opacity: .9;
+            background: .9;
             color: black;
             padding: 10px;
             width: 300px;
@@ -612,6 +612,55 @@
       <div class="overlay"></div>
     </section>
       
+    <section class="container interactive-demo parallax" style="max-width: 99vw; padding-top:2%;">
+        <div class="container-fluid" style="color: white; min-width:80%;">
+            <div class='row'>
+                <div class='col-md-9' style='text-align: center;'>
+                    <div style="width: 65%; margin: auto;">
+                        <!--<div class="input-group mb-3">  
+                            <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" placeholder="Enter your website url here">
+                        </div>-->
+                          
+                            <div class="row">
+                                <div class="input-group mb-3">
+                                    <div class='col-md-4'>
+                                        <select id="inputState" class="form-control">
+                                            <option selected>clickbaiting</option>
+                                            <option>non-clickbaiting</option>
+                                        </select>
+                                    </div> 
+                                    <div class='col-md-4'>
+                                        <select id="inputState" class="form-control">
+                                            <option selected>crime</option>
+                                            <option>entertainment</option>
+                                        </select>
+                                    </div> 
+                                    <div class='col-md-4'>
+                                        <select id="inputState" class="form-control">
+                                            <option selected>summary emojis</option>
+                                            <option>keyword emojis</option>
+                                        </select>
+                                    </div> 
+                                </div>
+                            </div>
+                        <button type="button" class="btn btn-primary btn-sm btn-block" style='background: black; color: fdcc52; border-color: transparent'>Generate</button>
+                    </div>
+                </div>
+                <div class='col-md-3' style="color: black; padding-left: 2%;text-align: right;">
+                    <p><i>EmPushy</i> can generate <strong>tailored</strong> notifications &#128276; for your website which are both <strong>high-performing</strong> &#128178; and <strong>empathetic</strong> &#128156; toward your subscribers.<br><br><i>You can concentrate on creating great content &#127916;</i> while EmPushy ensures it is delivered to subscribers in the most <strong>friendly</strong> &#128522; and <strong>effective</strong> &#128175; way possible!</p>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+      
+      <!--
+
+    <div class='container-fluid h-100'>
+            
+        </div>
+-->
+      
     <!--<div id="swipe-container" class="container interactive-demo parallax" style="position: relative; max-width: 99vw; display: none;">
         <div class="row" style="min-height:100%;">
             <div class="col-md-4" style="margin:auto;">
@@ -717,6 +766,32 @@
               $("#visualisation-container").hide()
               $("#vis-description").hide()
           }
+      }
+      
+      function compose(){
+          
+        var demoUrl = "https://empushy.azurewebsites.net/v1/nlp/web/compose";
+          
+        var formData = JSON.stringify({
+            "text": "[NCB_crime] ",
+            "emojis": "key"               
+        })
+
+        $.ajax ({
+            url: demoUrl,
+            type: "POST",
+            data: formData,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            crossDomain: true,
+            success: function(data) {
+                try{
+                    var prediction = data['compositions']
+                    console.log(prediction)
+                }
+                catch(err){}
+            }
+        });
       }
       
       /*function toggleSwipe(){
