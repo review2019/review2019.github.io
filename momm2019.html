@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="EmPusy Demo">
+    <meta name="author" content="Kieran">
+      
+    <link rel="shortcut icon" href="img/favicon.png" type="image/x-icon">
+    <link rel="icon" href="img/favicon.png" type="image/x-icon">
+
+    <title>Personalised Push-Notifications</title>
+      
+    <!-- Include HTML setup -->
+    <script src="js/include-setup.js"></script>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+    <!-- Custom fonts for this template -->
+    <link rel="stylesheet" href="fonts/all.css">
+    <link rel="stylesheet" href="vendor/simple-line-icons/css/simple-line-icons.css">
+    <link href="fonts/lato.css" rel="stylesheet">
+    <link href="fonts/catamaran.css" rel="stylesheet">
+    <link href="fonts/Muli.css" rel="stylesheet">
+      
+    <link rel="stylesheet" href="css/jquery.fancybox.min.css" />
+
+    <!-- Custom styles for this template -->
+    <link href="css/new-age.min.css" rel="stylesheet">
+    <!--<link href="css/swipe.css" rel="stylesheet">-->
+      
+    <!-- Jquery confirm stylesheet -->
+	<link rel="stylesheet" href="css//jquery-confirm.min.css">
+      
+    <style>
+        ::-webkit-scrollbar { display:none }  
+
+        .highcharts-container {
+            margin:auto;
+        }
+        section.cta .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,.3);
+        }
+        
+        .bubbleTooltip {
+            position: absolute;
+            top: 100px;
+            left: 100px;
+            -moz-border-radius:5px;
+            border-radius: 5px;
+            border: 2px solid #000;
+            background: #fff;
+            background: .9;
+            color: black;
+            padding: 10px;
+            width: 300px;
+            font-size: 12px;
+            z-index: 10;
+        }
+
+        .bubbleTooltip .title {
+            font-size: 13px;
+        }
+
+        .bubbleTooltip .name {
+            font-weight:bold;
+        }
+        @font-face {
+            font-family: "hoffman";
+            src: url(./fonts/hoffm__.ttf) format("truetype");
+        }
+        /*p.customfont { 
+            font-family: "My Custom Font", Verdana, Tahoma;
+        }*/
+        @media all and (max-width: 750px) {
+            #demo-container { display: none; }
+            #empushy-demo-container { display: none; }
+            .video-demo { display: block; }
+            .hidden-md { display: none; }
+            
+            #demoVideo {
+                position: absolute;
+                right: 0;
+                bottom: 0;
+                width: 100%;
+                height: 100%;
+                min-width: 100%; 
+                min-height: 100%;
+            }
+
+            
+        }
+        @media all and (min-width: 750px) {
+            .interactive-demo { display: block; }
+            .video-demo { display: none; }
+            .nav-link {
+                color: black !important;
+            }
+        }
+        .bar {
+          background-color: teal;
+          height: 20px;
+          margin-top: 2px;
+        }
+        
+        section.cta{
+            padding: 100px 0;
+        }
+        
+        body, html {
+          height: 100%;
+        }
+
+        .parallax {
+          /* The image used */
+          background-image: url('./img/bg1.png');
+
+          /* Full height */
+          height: 85%; 
+
+          /* Create the parallax scrolling effect */
+          background-attachment: fixed;
+          background-position: center;
+          background-repeat: no-repeat;
+          background-size: cover;
+        }
+        
+  </style>
+
+  </head>
+
+  <body id="page-top" style="background-size: contain;">
+      
+    
+    <div id="demo-container" class="container interactive-demo parallax" style="position: relative; max-width: 99vw">
+        <div class="row">
+            <div class="col-md-6" style="margin:auto;">
+                <a class="btn btn-primary" href="/">EmPushy Home</a>
+            </div>
+            <div class="col-md-6">
+                <div style="margin:1%">
+                     <label for="modelSelection" style="background: white;"><strong>Select model:</strong></label>
+                     <select class="form-control" id="modelSelection">
+                      <option>Q-Table</option>
+                      <option>DQN</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        
+        <div id="toolbar" class="btn-group" role="group" aria-label="Basic example" style="padding-top: 60px; position:absolute">
+            <button id="stop" type="button" class="btn btn-secondary" style="display: none;">Stop</button>
+            <button id="start" type="button" class="btn btn-secondary">Start</button>
+            <button id="replay" type="button" class="btn btn-secondary" style="display: none">Replay</button>
+
+            <div class="card">
+                <div class="card-body" id="time-tracker">
+                    Monday 12:00 am 
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div><strong id="wastedMinutes">0 </strong>minutes wasted</div>
+                </div>
+            </div>
+        </div>
+        <div id='persuasive-chart-container' class="container" style="padding: 5px; width: 20vw; height: 45%; position: absolute; right:0px; bottom: 0px; text-align: center; display: none;">
+            <div style="position: relative;">
+                <div id='willpower-card' class="card" style="padding: 5px; padding: 20px; position: absolute; z-index: 1" data-toggle="tooltip" data-placement="left" title="Willpower: depletes as user resists opening persuasive notifications; Dismissed: number of persuasive notifications the user has dismissed; Opened: number of persuasive notifications the user has opened.">
+                    <div class="card-header" style="background: teal; color: white;">Persuasion vs Willpower</div>
+                    <div class="card-body" style="padding: 5px;">
+                        <div id="willpower-chart" style="width: 15vw; height: 15vh; position:relative; overflow: hidden;"></div>
+                    </div>
+                </div>
+                <div id="principles-card" class="card" style="padding: 5px; padding: 20px; position: absolute; z-index: -1" data-toggle="tooltip" data-placement="left" title="P1: ">
+                    <div class="card-header" style="background: teal; color: white;">Persuasion Principles</div>
+                    <div class="card-body" style="padding: 5px;">
+                        <div id="principles-chart" style="width: 15vw; height: 15vh; position:relative;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card" style="height: 10vh; width:25vw; position: absolute; right:0; padding: 10px; border: none;">
+            <div class="row" style="margin: auto;">
+                <div class="col-md-3">
+                    <img src="img/adapt_logo.png" style="height: 100%; width: 100%;"/>
+                </div>
+                <div class="col-md-9">
+                    <img src="img/empushy_logo.png" style="height: 100%; width: 100%;"/>
+                </div>
+            </div>
+        </div>
+        
+        <!--<div style="position:absolute; height: 15%; width: 24%; margin-top: 120px; z-index:-1;">
+                <div id="willpower-chart" style="width: 100%; height: 100%"></div>
+        </div>-->
+        <div id="featureToolbar"  style="position: absolute; float: right; top: 0px; right: 0px; height: 70%; width: 20%;
+                      margin-top: 11%; padding-bottom: 5px; overflow-x: hidden">
+            
+            <div>
+                <div class="input-group mb-3" style="width: 100%;" onclick="featureSelected">
+                  <select id="chooseFeature" class="custom-select" id="inputGroupSelect01"></select>
+                </div>                
+            </div>
+            <ul id='dropdownLegend' class="list-group" style="overflow-y: scroll;"></ul>
+        </div>
+        
+        
+        <div id="vis" style="width: 100%; height: 90vh"></div>
+        <div style="position: absolute; height: 35%; width: 35%; bottom: 0;
+                                             left: 25%; z-index: 0;">
+            <img id="man-up" src="img/looking_up_small.png" style="height: 100%; width: 100%; display: none;"/>
+            <img id="man-left" src="img/looking_left_small.png" style="height: 100%; width: 100%; display: block;"/>
+            <img id="man-down" src="img/looking_down_small.png" style="height: 100%; width: 100%; display: none;"/>
+            
+        </div>
+    </div>
+    <div class="container video-demo" style="position: relative; height: 50%;">
+        <iframe width="100%" height="100%" style="padding: 2%" src="https://drive.google.com/file/d/1rT1bbqEh_0e4hmMK8eWXIF1GxwCVYk0W/preview" frameborder="0"  allowfullscreen></iframe>
+
+    </div>
+
+    <div class="alert alert-secondary video-demo" role="alert" style="text-align: center; margin-left: 5%; margin-right: 5%">
+        You can interact with the demo on a desktop size screen!
+    </div>
+      
+    <section class="cta" style="background: #59358c !important;padding:1%">
+      <div class="cta-content">
+        <div class="container" style="color: white; min-width:95%;">
+            <div class="row" style="text-align: center;">
+                <div class="col-md-12" style="padding-bottom:20px;padding-top:20px;">
+                    <h4><strong>Reinforcement Learning</strong></h4>
+                    As a potential solution for notification management, reinforcement learning methods are tested on existing in-the-wild and subsequent synthetic data sets. <br><br>
+                    There are many features which are known to have an association with the user's action on a notification, however the number of features selected also expands the state-space and impacts training/prediction times. For the purposes of this preliminary study, only the following features (which are known at delivery time) were selected:                     
+                    <br><i>{ category, app, time-of-day, day-of-week }</i><br>
+                    
+                </div>
+            </div>
+        </div>
+      </div>
+      <div class="overlay"></div>
+    </section>
+      
+    <!-- Creates the bootstrap modal where the image will appear -->
+    <div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title" id="myModalLabel">Image preview</h4>
+          </div>
+          <div class="modal-body">
+            <img src="" id="imagepreview" style="width: 400px; height: 264px;" >
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+      
+    <div id="empushy-demo-container" class="container interactive-demo parallax" style="position: relative; max-width: 99vw">
+        <div id="empushyToolbar" class="btn-group" role="group" aria-label="Basic example" style="padding-top: 60px; position:absolute">
+            <button id="empushyStop" type="button" class="btn btn-secondary" style="display: none;">Stop</button>
+            <button id="empushyStart" type="button" class="btn btn-secondary">Start</button>
+            <button id="empushyReplay" type="button" class="btn btn-secondary" style="display: none">Replay</button>
+
+            <div class="card">
+                <div class="card-body" id="empushy-time-tracker">
+                    Monday 12:00 am 
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div><strong id="empushyWastedMinutes">0 </strong>minutes wasted</div>
+                </div>
+            </div>
+        </div>
+        <div class="card" style="height: 10vh; width:25vw; position: absolute; right:0; padding: 10px; border: none;">
+            <div class="row" style="margin: auto;">
+                <div class="col-md-3">
+                    <img src="img/adapt_logo.png" style="height: 100%; width: 100%;"/>
+                </div>
+                <div class="col-md-9">
+                    <img src="img/empushy_logo.png" style="height: 100%; width: 100%;"/>
+                </div>
+            </div>
+        </div>
+
+        <div id="empushyFeatureToolbar"  style="position: absolute; float: right; top: 0px; right: 0px; height: 70%; width: 20%;
+                      margin-top: 100px; padding-bottom: 5px; overflow-x: hidden">
+
+            <div>
+                <div class="input-group mb-3" style="width: 100%;" onclick="empushyFeatureSelected">
+                  <select id="empushyChooseFeature" class="custom-select" id="inputGroupSelect01"></select>
+                </div>                
+            </div>
+            <ul id='empushyDropdownLegend' class="list-group" style="overflow-y: scroll;"></ul>
+        </div>
+        
+        <!--<div style="position:absolute; bottom: 0px; right: 2%; margin:1%;">
+            <button class="btn btn-primary" onclick="toggleSwipe();">Swipe Control</button>
+        </div>-->
+
+
+        <div id="empushyVis" style="width: 100%; height: 90vh"></div>
+        <div style="position: absolute; height: 35%; width: 35%; bottom: 0;
+                                             right: 40%; z-index: 0;">
+            <img id="empushy-man-up" src="img/looking_happy.png" style="height: 100%; width: 100%; display: none;"/>
+            <img id="empushy-man-left" src="img/looking_left_small.png" style="height: 100%; width: 100%; display: block;"/>
+            <img id="empushy-man-down" src="img/looking_down_small.png" style="height: 100%; width: 100%; display: none;"/>
+
+        </div>
+    </div>
+      
+    <section class="cta" style="background: #7197cf !important;padding:1%;">
+      <div class="cta-content">
+        <div class="container" style="color: white; min-width:80%;">
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-3" style="text-align: right">
+                    <h4><strong>Q-Table</strong></h4>
+                    A Q-Table is implemented to learn to mediate notification delivery on behalf of the user to aleviate information overload.
+                    <br>
+                    <br>
+                    <strong>Example Result:</strong>
+                    <br>
+                    Trained on 3,866 notifications, tested on 429 using 10-Fold Cross-Validation
+                    <br>Accuracy: 78%
+                    <br>Precision: 78%
+                    <br>Recall: 81%
+                    <br>F1: 80%
+                    <br>Time to Train: 70s
+                    <br>Time to Test: 39s
+                </div>
+                <div class="col-md-3" style="text-align: left">
+                    <h4><strong>Deep Q-Network</strong></h4>
+                    A Deep Q-Network (DQN) is implemented to learn to mediate notification delivery on behalf of the user to aleviate information overload.
+                    <br>
+                    <br>
+                    <strong>Example Result:</strong>
+                    <br>
+                    Trained on 3,866 notifications, tested on 429 using 10-Fold Cross-Validation
+                    <br>Accuracy: 80%
+                    <br>Precision: 79%
+                    <br>Recall: 87%
+                    <br>F1: 83%
+                    <br>Time to Train: 257s
+                    <br>Time to Test: 19s
+                </div>
+                <div class="col-md-3"></div>
+            </div>
+        </div>
+      </div>
+      <div class="overlay"></div>
+    </section>
+      
+
+    <footer>
+      <div class="container">
+        <p>Research undertaken by Rowan Sutton &amp; Kieran Fraser, ADAPT Centre, Trinity College Dublin</p>
+      </div>
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <!--<script src="vendor/jquery/jquery.min.js"></script>-->
+    <script src="./js/jquery-3.1.1.min.js"></script>
+    <script src="./js/popper.min.js"></script>
+    <!--    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>-->
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/d6642961e7.js" crossorigin="anonymous"></script>
+      
+    <!-- Plugin JavaScript -->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script>
+        includeHTML();
+    </script>
+      
+    <script src="./js/d3.v5.min.js"></script>
+    <script src="./js/momm_demo.js"></script>
+    <script src="./js/momm_demo_empushy.js"></script>
+    <script src="./js/principles.js"></script>
+    <script src="./visualisations/js/jquery-3.1.1.min.js"></script>
+    <script src="./js/underscore-min.js"></script>
+    <script src="./js/Chart.min.js"></script> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrender/1.0.4/jsrender.min.js"></script>
+    <!--<script src="./js/swipe.js"></script>-->
+      
+    <script>
+        problem_demo('./data/qtable.json')
+        empushy_demo('./data/qtable.json')
+        $('#modelSelection').on('change', function(e){
+            if(this.value=='DQN'){
+                remove_problem_demo()
+                remove_empushy_demo()
+                problem_demo('./data/dqn.json')
+                empushy_demo('./data/dqn.json')
+            }
+            else{
+                remove_problem_demo()
+                remove_empushy_demo()
+                problem_demo('./data/qtable.json')
+                empushy_demo('./data/qtable.json')
+            }
+        });
+      
+    </script>
+
+  </body>
+
+</html>
