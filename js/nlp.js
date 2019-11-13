@@ -85,7 +85,7 @@ function compose(){
                             body = body.replace(pair.keyword, pair.keyword+' '+pair.emojis.split(' ')[rand1])
                         }
                     }
-                    body = body.replace('[CB', '').replace('[NCB', '')
+                    body = body.replace('[CB', '').replace('[NCB', '').replace('[MEH]', '').replace('[', '').replace(']','')
                     notifications.push({text: body, category: selectedTopic})
                 }
                 var html = $.templates.composeTemplate(notifications);
@@ -182,3 +182,26 @@ function webPush(){
 
     });
 }
+
+/*abstract_notifications(true);
+function abstract_notifications(emojiKey){
+    $.getJSON("./data/abstract_notifications.json", function(json) {
+        console.log(json); // this will show the info it in firebug console
+        notifications = []
+        for(val of json){
+            var body = val[0].substring(0,150)+'... '
+            if(!emojiKey)
+                body = body + val[2]
+            else{
+                for(pair of val[1]){
+                    rand1 = (Math.floor(Math.random() * 2) + 1 )-1
+                    body = body.replace(pair.keyword, pair.keyword+' '+pair.emojis.split(' ')[rand1])
+                }
+            }
+            notifications.push({text: body, category: 'My Abstract'})
+        }
+        var html = $.templates.composeTemplate(notifications);
+        $("#generatedNotifications").append(html)
+        $('.toast').toast('show')
+    });
+}*/
