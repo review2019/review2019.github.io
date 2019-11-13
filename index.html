@@ -131,7 +131,7 @@
           background-image: url('./img/bg1.png');
 
           /* Full height */
-          height: 75%; 
+          height: 85%; 
 
           /* Create the parallax scrolling effect */
           background-attachment: fixed;
@@ -1062,10 +1062,10 @@
                     catch(err){}
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown){
-                    alert('Error generating notifications, try again.')
                     $(".progress-bar-fill").css({"width":"0%","transition":"none"});
                     $('#progressBarCompose').css('visibility', 'invisible')
                     $('#composeButton').attr("disabled", false);
+                    alert('Error generating notifications, try again.')
                 }
                 
             });
@@ -1073,7 +1073,7 @@
       
       function toggleProgressWebPush(){
         $('#progressBarWebPush').css('visibility', 'visible')
-        $('#webpushButton').attr("disabled", true);
+        $('#webPushButton').attr("disabled", true);
         $("#progressBarWebPush.progress-bar-fill").css({"width":"100%","transition":"15s"});
       }
   
@@ -1098,7 +1098,6 @@
             "emoji": emojiKeyWebPush?'key':'sen'             
         })
 
-        console.log(formData)
         $.ajax ({
             url: webPushDemoURL,
             type: "POST",
@@ -1138,10 +1137,10 @@
                 catch(err){}
             },
             error: function(XMLHttpRequest, textStatus, errorThrown){
-                alert('Error generating notifications, try again.')
                 $("#progressBarWebPush.progress-bar-fill").css({"width":"0%","transition":"none"});
                 $('#progressBarWebPush').css('visibility', 'invisible')
                 $('#webPushButton').attr("disabled", false);
+                alert('Error generating notifications, try again.')
             }
 
         });
